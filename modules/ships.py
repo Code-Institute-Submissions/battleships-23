@@ -8,6 +8,14 @@ class Ship:
         self.symbol = symbol
         self.length = length
 
+    def get_name(self):
+        """Returns the name of the Ship
+
+        Returns:
+            str: Ship name
+        """
+        return self.name
+
     def get_symbol(self):
         """Returns the character that represents the Ship
 
@@ -16,13 +24,13 @@ class Ship:
         """
         return self.symbol
 
-    def get_name(self):
-        """Returns the name of the Ship
+    def get_length(self):
+        """Returns the character that represents the Ship
 
         Returns:
-            str: Ship name
+            str: Character that represents the Ship
         """
-        return self.name
+        return self.length
 
 
 class Battleship(Ship):
