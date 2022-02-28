@@ -41,8 +41,3 @@ class Submarine(Ship):
 
     def __init__(self):
         super().__init__("Submarine", "S", 2)
-
-
-sub = Submarine()
-print(sub.__dict__)
-help(sub)
