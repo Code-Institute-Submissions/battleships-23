@@ -64,11 +64,12 @@ class Board:
 
     def place_ships(self):
         fleet = self.small_fleet.get_ships_in_fleet()
+        ship_placements_remaining = len(fleet)
+
         for ship in fleet:
             # Get input from user regarding where ships should be placed
-
             print(
-                f"You have {len(fleet)} ships left to place.\n"
+                f"You have {ship_placements_remaining} ships left to place.\n"
                 f"You are currently placing your '{ship.get_name()}' "
                 f"which is '{ship.length}' grid spaces long.\n"
             )
@@ -100,6 +101,8 @@ class Board:
                     direction, start_x_coord, start_y__coord, ship.length
                 )
             )
+
+            ship_placements_remaining -= 1
 
             # TODO Position validation
             # TODO Add ship to board
