@@ -1,4 +1,5 @@
 from fleets import SmallFleet
+from ships import Ship
 
 
 class Board:
@@ -58,6 +59,8 @@ class Board:
                     # print(item)
                     if item is None:
                         print(" - |", end="")
+                    else:
+                        print(" " + item.get_symbol() + " |", end="")
                 print("\t", end="")
             row_num += 1
         print("\n")
@@ -67,6 +70,8 @@ class Board:
         ship_placements_remaining = len(fleet)
 
         for ship in fleet:
+            self.print_board()
+
             # Get input from user regarding where ships should be placed
             print(
                 f"You have {ship_placements_remaining} ships left to place.\n"
@@ -97,12 +102,14 @@ class Board:
                 direction, start_x_coord, start_y__coord, ship.length
             )
 
-            print(self.check_valid_position(ship_position))
+            is_ship_position_valid = self.check_valid_position(ship_position)
+
+            if is_ship_position_valid is True:
+                self.add_ship_to_board(ship_position, ship)
+            else:
+                print(is_ship_position_valid)
 
             ship_placements_remaining -= 1
-
-            # TODO Position validation
-            # TODO Add ship to board
 
     def create_ship_position_coords(
         self, direction, start_x_coord, start_y__coord, ship_length
@@ -138,7 +145,14 @@ class Board:
             try:
                 if self.play_board[x][y] is None:
                     valid_placement = True
-                # TODO Check ship overlap
+                elif isinstance(self.play_board[x][y], Ship):
+                    # Ship collision detected
+                    valid_placement = (
+                        f"Placement overlaps "
+                        f"{self.play_board[x][y].get_name()}. "
+                        "Please try again..\n"
+                    )
+                    break
             except IndexError as e:
                 # Out of range
                 valid_placement = (
@@ -148,7 +162,10 @@ class Board:
                 break
         return valid_placement
 
+    def add_ship_to_board(self, input_array, ship):
+        for x, y in input_array:
+            self.play_board[x][y] = ship
+
 
 new_test_board = Board(5)
-new_test_board.print_board()
 new_test_board.place_ships()
