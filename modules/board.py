@@ -88,13 +88,46 @@ class Board:
                 f"Enter Start y Coord (a - "
                 f"{self.alphabet[self.size-1]})\n>> "
             )
-            print(type(start_y__coord))
             # Convert str to int and subtract 97 as that is the value of 'a',
             # 'b' is 98 and so on.
             start_y__coord = ord(start_y__coord) - 97
-            print(direction, start_x_coord, type(start_y__coord))
+
+            # DEBUG Test function to generate ship coords
+            print("Ship Starting Point")
+            print(direction, start_x_coord, start_y__coord, ship.length)
+            print(
+                self.create_ship_position_coords(
+                    direction, start_x_coord, start_y__coord, ship.length
+                )
+            )
+
             # TODO Position validation
             # TODO Add ship to board
+
+    def create_ship_position_coords(
+        self, direction, start_x_coord, start_y__coord, ship_length
+    ):
+        """Creates list of ship coords to be used in testing
+
+        Args:
+            direction (str): Horizontal ('l') or vertical ('d') axis
+            start_x_coord (int): X coordinate to start from
+            start_y__coord (int): Y coordinate to start from
+            ship_length (int): Length of ship
+
+        Returns:
+            list: 2D list of coordinates to represent the placement of the
+            ship
+        """
+        ship_coords = []
+
+        if direction == "d":
+            for i in range(0, ship_length):
+                ship_coords.append([start_y__coord + i, start_x_coord])
+        else:
+            for i in range(0, ship_length):
+                ship_coords.append([start_y__coord, start_x_coord + i])
+        return ship_coords
 
 
 new_test_board = Board(5)
