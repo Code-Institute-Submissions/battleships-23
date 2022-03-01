@@ -128,12 +128,12 @@ class Board:
         """
         ship_coords = []
 
-        if direction == "d":
-            for i in range(0, ship_length):
-                ship_coords.append([start_y__coord + i, start_x_coord])
-        else:
+        if direction == "h":
             for i in range(0, ship_length):
                 ship_coords.append([start_y__coord, start_x_coord + i])
+        elif direction == "v":
+            for i in range(0, ship_length):
+                ship_coords.append([start_y__coord + i, start_x_coord])
         return ship_coords
 
     def check_valid_position(self, input_array):
