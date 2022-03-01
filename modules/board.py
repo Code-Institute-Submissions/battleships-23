@@ -93,14 +93,11 @@ class Board:
             # 'b' is 98 and so on.
             start_y__coord = ord(start_y__coord) - 97
 
-            # DEBUG Test function to generate ship coords
-            print("Ship Starting Point")
-            print(direction, start_x_coord, start_y__coord, ship.length)
-            print(
-                self.create_ship_position_coords(
-                    direction, start_x_coord, start_y__coord, ship.length
-                )
+            ship_position = self.create_ship_position_coords(
+                direction, start_x_coord, start_y__coord, ship.length
             )
+
+            print(self.check_valid_position(ship_position))
 
             ship_placements_remaining -= 1
 
@@ -131,6 +128,25 @@ class Board:
             for i in range(0, ship_length):
                 ship_coords.append([start_y__coord, start_x_coord + i])
         return ship_coords
+
+    def check_valid_position(self, input_array):
+        """
+        Checks if coords (passed as a list) are empty and in-bounds
+        """
+        valid_placement = False
+        for x, y in input_array:
+            try:
+                if self.play_board[x][y] is None:
+                    valid_placement = True
+                # TODO Check ship overlap
+            except IndexError as e:
+                # Out of range
+                valid_placement = (
+                    "Selected position would put the ship out of bounds. "
+                    "Please try again..\n"
+                )
+                break
+        return valid_placement
 
 
 new_test_board = Board(5)
