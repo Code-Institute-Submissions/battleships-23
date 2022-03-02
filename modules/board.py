@@ -70,46 +70,90 @@ class Board:
         ship_placements_remaining = len(fleet)
 
         for ship in fleet:
-            self.print_board()
+            while True:
+                self.print_board()
 
-            # Get input from user regarding where ships should be placed
-            print(
-                f"You have {ship_placements_remaining} ships left to place.\n"
-                f"You are currently placing your '{ship.get_name()}' "
-                f"which is '{ship.length}' grid spaces long.\n"
-            )
+                # Get input from user regarding where ships should be placed
+                print(
+                    f"You have {ship_placements_remaining} ships left to place.\n"
+                    f"You are currently placing your '{ship.get_name()}' "
+                    f"which is '{ship.length}' grid spaces long.\n"
+                )
 
-            # TODO Input validation
+                direction = self.prompt_for_ship_direction()
+                start_x_coord, start_y_coord = self.prompt_for_coordinates()
+
+                ship_position = self.create_ship_position_coords(
+                    direction, start_x_coord, start_y_coord, ship.length
+                )
+
+                is_ship_position_valid = self.check_valid_position(
+                    ship_position
+                )
+
+                if is_ship_position_valid is True:
+                    self.add_ship_to_board(ship_position, ship)
+                    break
+                else:
+                    print(is_ship_position_valid)
+
+            ship_placements_remaining -= 1
+
+    def prompt_for_ship_direction(self):
+        while True:
             direction = input(
                 "Please enter an orientation for your ship"
                 " ('h' = horizontal, 'v' = vertical)\n>> "
             )
+            if direction != "" and direction in "HVhv":
+                direction.lower()
+                return direction
+            else:
+                continue
 
-            start_x_coord = input(
+    def prompt_for_coordinates(self):
+        x_coord = 0
+        y_coord = 0
+
+        while True:
+            x_coord = input(
                 f"Enter Start x Coordinate (1 - " f"{self.size})\n>> "
             )
-            start_x_coord = int(start_x_coord) - 1
+            try:
+                x_coord = int(x_coord)
+            except ValueError:
+                print("Invalid Input! Please enter a number.")
+                continue
+            if x_coord >= 1 and x_coord <= self.size:
+                x_coord = x_coord - 1
+                break
+            else:
+                print(
+                    "Invalid Input! "
+                    "Please enter a number in the range specified."
+                )
 
-            start_y__coord = input(
+        while True:
+            y_coord = input(
                 f"Enter Start y Coord (a - "
                 f"{self.alphabet[self.size-1]})\n>> "
             )
-            # Convert str to int and subtract 97 as that is the value of 'a',
-            # 'b' is 98 and so on.
-            start_y__coord = ord(start_y__coord) - 97
-
-            ship_position = self.create_ship_position_coords(
-                direction, start_x_coord, start_y__coord, ship.length
-            )
-
-            is_ship_position_valid = self.check_valid_position(ship_position)
-
-            if is_ship_position_valid is True:
-                self.add_ship_to_board(ship_position, ship)
+            try:
+                # Convert string to its Unicode to return the integer value and
+                # subtract 97 as that is the value of 'a', 'b' is 98 and so on.
+                y_coord = ord(y_coord) - 97
+            except TypeError:
+                print("Invalid Input! Please enter a letter.")
+                continue
+            if y_coord >= 0 and y_coord <= self.size - 1:
+                break
             else:
-                print(is_ship_position_valid)
+                print(
+                    "Invalid Input! "
+                    "Please enter a letter in the range specified."
+                )
 
-            ship_placements_remaining -= 1
+        return x_coord, y_coord
 
     def create_ship_position_coords(
         self, direction, start_x_coord, start_y__coord, ship_length
