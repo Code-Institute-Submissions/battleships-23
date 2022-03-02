@@ -1,5 +1,6 @@
 from fleets import SmallFleet
 from ships import Ship
+import random
 
 
 class Board:
@@ -9,7 +10,7 @@ class Board:
 
     alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-    def __init__(self, size):
+    def __init__(self, size, board_is_automated=False):
         self.size = size
         # Idea to use 2 boards per player, 1 to hold ships and 1 to hold
         # guesses from David Bowers project.
@@ -18,6 +19,7 @@ class Board:
         self.play_board = Board.create_board(size)
         self.guess_board = Board.create_board(size)
         self.small_fleet = SmallFleet()
+        self.board_is_automated = board_is_automated
 
     def create_board(size):
         """Creates a 2D list to represent the board
@@ -65,51 +67,120 @@ class Board:
             row_num += 1
         print("\n")
 
-    def place_ships(self):
+    def place_ships(self, automate_placement=False):
         fleet = self.small_fleet.get_ships_in_fleet()
         ship_placements_remaining = len(fleet)
 
         for ship in fleet:
-            self.print_board()
+            while True:
+                # If board functions (or specifically the placement of ships)
+                # are automated then generate random input, else display board
+                # and prompt for input.
+                if self.board_is_automated or automate_placement:
+                    direction = random.choice(["h", "v"])
+                    start_x_coord = random.randint(0, self.size - 1)
+                    start_y_coord = random.randint(0, self.size - 1)
+                else:
+                    self.print_board()
+                    # Present information to user regarding current ship to be
+                    # placed
+                    print(
+                        f"You have {ship_placements_remaining} "
+                        "ships left to place.\n"
+                        f"You are currently placing your '{ship.get_name()}' "
+                        f"which is '{ship.length}' grid spaces long.\n"
+                    )
 
-            # Get input from user regarding where ships should be placed
-            print(
-                f"You have {ship_placements_remaining} ships left to place.\n"
-                f"You are currently placing your '{ship.get_name()}' "
-                f"which is '{ship.length}' grid spaces long.\n"
-            )
+                    # Functions which prompt for and validate user input
+                    # regarding ship placement
+                    direction = self.prompt_for_ship_direction()
+                    (
+                        start_x_coord,
+                        start_y_coord,
+                    ) = self.prompt_for_coordinates()
 
-            # TODO Input validation
+                # Create a list of coordinates the ship will occupy on the
+                # board, its position.
+                ship_position = self.create_ship_position_coords(
+                    direction, start_x_coord, start_y_coord, ship.length
+                )
+
+                # Check if each of the coordinates the ship would occupy
+                # are empty and within the bounds of the board size.
+                is_ship_position_valid = self.check_valid_position(
+                    ship_position
+                )
+
+                # If valid, place the ship on the board, else inform the
+                # user why.
+                if is_ship_position_valid is True:
+                    self.add_ship_to_board(ship_position, ship)
+                    break
+                else:
+                    # If board functions (or specifically the placement of
+                    # ships) are automated the do not print feedback.
+                    if self.board_is_automated or automate_placement:
+                        continue
+                    else:
+                        print(is_ship_position_valid)
+
+            ship_placements_remaining -= 1
+
+    def prompt_for_ship_direction(self):
+        while True:
             direction = input(
                 "Please enter an orientation for your ship"
                 " ('h' = horizontal, 'v' = vertical)\n>> "
             )
+            if direction != "" and direction in "HVhv":
+                direction.lower()
+                return direction
+            else:
+                continue
 
-            start_x_coord = input(
+    def prompt_for_coordinates(self):
+        x_coord = 0
+        y_coord = 0
+
+        while True:
+            x_coord = input(
                 f"Enter Start x Coordinate (1 - " f"{self.size})\n>> "
             )
-            start_x_coord = int(start_x_coord) - 1
+            try:
+                x_coord = int(x_coord)
+            except ValueError:
+                print("Invalid Input! Please enter a number.")
+                continue
+            if x_coord >= 1 and x_coord <= self.size:
+                x_coord = x_coord - 1
+                break
+            else:
+                print(
+                    "Invalid Input! "
+                    "Please enter a number in the range specified."
+                )
 
-            start_y__coord = input(
+        while True:
+            y_coord = input(
                 f"Enter Start y Coord (a - "
                 f"{self.alphabet[self.size-1]})\n>> "
             )
-            # Convert str to int and subtract 97 as that is the value of 'a',
-            # 'b' is 98 and so on.
-            start_y__coord = ord(start_y__coord) - 97
-
-            ship_position = self.create_ship_position_coords(
-                direction, start_x_coord, start_y__coord, ship.length
-            )
-
-            is_ship_position_valid = self.check_valid_position(ship_position)
-
-            if is_ship_position_valid is True:
-                self.add_ship_to_board(ship_position, ship)
+            try:
+                # Convert string to its Unicode to return the integer value and
+                # subtract 97 as that is the value of 'a', 'b' is 98 and so on.
+                y_coord = ord(y_coord) - 97
+            except TypeError:
+                print("Invalid Input! Please enter a letter.")
+                continue
+            if y_coord >= 0 and y_coord <= self.size - 1:
+                break
             else:
-                print(is_ship_position_valid)
+                print(
+                    "Invalid Input! "
+                    "Please enter a letter in the range specified."
+                )
 
-            ship_placements_remaining -= 1
+        return x_coord, y_coord
 
     def create_ship_position_coords(
         self, direction, start_x_coord, start_y__coord, ship_length
@@ -148,7 +219,7 @@ class Board:
                 elif isinstance(self.play_board[x][y], Ship):
                     # Ship collision detected
                     valid_placement = (
-                        f"Placement overlaps "
+                        f"The selected position overlaps "
                         f"{self.play_board[x][y].get_name()}. "
                         "Please try again..\n"
                     )
@@ -156,7 +227,7 @@ class Board:
             except IndexError as e:
                 # Out of range
                 valid_placement = (
-                    "Selected position would put the ship out of bounds. "
+                    "The selected position would put the ship out of bounds. "
                     "Please try again..\n"
                 )
                 break
@@ -167,5 +238,17 @@ class Board:
             self.play_board[x][y] = ship
 
 
+# Automated Ship Placement Test
+new_test_board = Board(5)
+new_test_board.place_ships(True)
+new_test_board.print_board()
+
+# Manual Ship Placement Test
 new_test_board = Board(5)
 new_test_board.place_ships()
+new_test_board.print_board()
+
+# Automated Board Test in preperation for planned player class methods
+new_test_board = Board(5, True)
+new_test_board.place_ships()
+new_test_board.print_board()
