@@ -73,24 +73,33 @@ class Board:
             while True:
                 self.print_board()
 
-                # Get input from user regarding where ships should be placed
+                # Present information to user regarding current ship to be
+                # placed
                 print(
                     f"You have {ship_placements_remaining} ships left to place.\n"
                     f"You are currently placing your '{ship.get_name()}' "
                     f"which is '{ship.length}' grid spaces long.\n"
                 )
 
+                # Functions which prompt for and validate user input regarding
+                # ship placement
                 direction = self.prompt_for_ship_direction()
                 start_x_coord, start_y_coord = self.prompt_for_coordinates()
 
+                # Create a list of coordinates the ship will occupy on the
+                # board, its position.
                 ship_position = self.create_ship_position_coords(
                     direction, start_x_coord, start_y_coord, ship.length
                 )
 
+                # Check if each of the coordinates the ship would occupy are
+                # empty and within the bounds of the board size.
                 is_ship_position_valid = self.check_valid_position(
                     ship_position
                 )
 
+                # If valid, place the ship on the board, else inform the user
+                # why.
                 if is_ship_position_valid is True:
                     self.add_ship_to_board(ship_position, ship)
                     break
@@ -192,7 +201,7 @@ class Board:
                 elif isinstance(self.play_board[x][y], Ship):
                     # Ship collision detected
                     valid_placement = (
-                        f"Placement overlaps "
+                        f"The selected position overlaps "
                         f"{self.play_board[x][y].get_name()}. "
                         "Please try again..\n"
                     )
@@ -200,7 +209,7 @@ class Board:
             except IndexError as e:
                 # Out of range
                 valid_placement = (
-                    "Selected position would put the ship out of bounds. "
+                    "The selected position would put the ship out of bounds. "
                     "Please try again..\n"
                 )
                 break
