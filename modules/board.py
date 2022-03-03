@@ -238,17 +238,17 @@ class Board:
             self.play_board[x][y] = ship
 
 
-# Automated Ship Placement Test
-new_test_board = Board(5)
-new_test_board.place_ships(True)
-new_test_board.print_board()
+# # Automated Ship Placement Test
+# new_test_board = Board(5)
+# new_test_board.place_ships(True)
+# new_test_board.print_board()
 
-# Manual Ship Placement Test
-new_test_board = Board(5)
-new_test_board.place_ships()
-new_test_board.print_board()
+# # Manual Ship Placement Test
+# new_test_board = Board(5)
+# new_test_board.place_ships()
+# new_test_board.print_board()
 
-# Automated Board Test in preperation for planned player class methods
-new_test_board = Board(5, True)
-new_test_board.place_ships()
-new_test_board.print_board()
+# # Automated Board Test in preperation for planned player class methods
+# new_test_board = Board(5, True)
+# new_test_board.place_ships()
+# new_test_board.print_board()
