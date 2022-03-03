@@ -133,7 +133,7 @@ class Board:
                 " ('h' = horizontal, 'v' = vertical)\n>> "
             )
             if direction != "" and direction in "HVhv":
-                direction.lower()
+                direction = direction.lower()
                 return direction
             else:
                 continue
@@ -166,6 +166,7 @@ class Board:
                 f"{self.alphabet[self.size-1]})\n>> "
             )
             try:
+                y_coord = y_coord.lower()
                 # Convert string to its Unicode to return the integer value and
                 # subtract 97 as that is the value of 'a', 'b' is 98 and so on.
                 y_coord = ord(y_coord) - 97
