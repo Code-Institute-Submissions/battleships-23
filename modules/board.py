@@ -270,14 +270,14 @@ class Board:
             print(fire_missile_result)
 
     def check_if_hit(self, x_coord, y_coord):
-        shot_result = self.play_board[x_coord][y_coord]
+        shot_result = self.play_board[y_coord][x_coord]
         if isinstance(shot_result, Ship):
             return "HIT"
         else:
             return "MISS"
 
-    def update_guess_board(self, y_coord, x_coord, guess_result):
-        self.guess_board[x_coord][y_coord] = guess_result
+    def update_guess_board(self, x_coord, y_coord, guess_result):
+        self.guess_board[y_coord][x_coord] = guess_result
 
 
 # # Automated Ship Placement Test
