@@ -61,6 +61,10 @@ class Board:
                     # print(item)
                     if item is None:
                         print(" - |", end="")
+                    elif item == "MISS":
+                        print(" 0 |", end="")
+                    elif item == "HIT":
+                        print(" X |", end="")
                     else:
                         print(" " + item.get_symbol() + " |", end="")
                 print("\t", end="")
@@ -237,6 +241,43 @@ class Board:
     def add_ship_to_board(self, input_array, ship):
         for x, y in input_array:
             self.play_board[x][y] = ship
+
+    def fire_missile(self, opponents_board):
+        while True:
+            (
+                x_coord,
+                y_coord,
+            ) = self.prompt_for_coordinates()
+            valid_position = self.check_valid_position([[x_coord, y_coord]])
+
+            if valid_position == True or "position overlaps" in valid_position:
+                # Check guess is original
+                if self.guess_board[x_coord][y_coord] is not None:
+                    print(
+                        "You have previously launched a missile here. "
+                        "Please try again.\n"
+                    )
+                else:
+                    break
+
+        # Check the opponent's play board
+        fire_missile_result = opponents_board.check_if_hit(x_coord, y_coord)
+        if fire_missile_result == "MISS":
+            self.update_guess_board(x_coord, y_coord, fire_missile_result)
+            print(fire_missile_result)
+        elif fire_missile_result == "HIT":
+            self.update_guess_board(x_coord, y_coord, "HIT")
+            print(fire_missile_result)
+
+    def check_if_hit(self, x_coord, y_coord):
+        shot_result = self.play_board[x_coord][y_coord]
+        if isinstance(shot_result, Ship):
+            return "HIT"
+        else:
+            return "MISS"
+
+    def update_guess_board(self, y_coord, x_coord, guess_result):
+        self.guess_board[x_coord][y_coord] = guess_result
 
 
 # # Automated Ship Placement Test
