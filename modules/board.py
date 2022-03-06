@@ -18,7 +18,7 @@ class Board:
         # URL: https://github.com/dnlbowers/battleships
         self.play_board = Board.create_board(size)
         self.guess_board = Board.create_board(size)
-        self.small_fleet = SmallFleet()
+        self.fleet = SmallFleet()
         self.board_is_automated = board_is_automated
 
     def create_board(size):
@@ -72,7 +72,7 @@ class Board:
         print("\n")
 
     def place_ships(self, automate_placement=False):
-        fleet = self.small_fleet.get_ships_in_fleet()
+        fleet = self.fleet.get_ships_in_fleet()
         ship_placements_remaining = len(fleet)
 
         for ship in fleet:
@@ -106,7 +106,7 @@ class Board:
                 # Create a list of coordinates the ship will occupy on the
                 # board, its position.
                 ship_position = self.create_ship_position_coords(
-                    direction, start_x_coord, start_y_coord, ship.length
+                    direction, start_x_coord, start_y_coord, ship.get_length()
                 )
 
                 # Check if each of the coordinates the ship would occupy
@@ -279,19 +279,3 @@ class Board:
 
     def update_guess_board(self, x_coord, y_coord, guess_result):
         self.guess_board[y_coord][x_coord] = guess_result
-
-
-# # Automated Ship Placement Test
-# new_test_board = Board(5)
-# new_test_board.place_ships(True)
-# new_test_board.print_board()
-
-# # Manual Ship Placement Test
-# new_test_board = Board(5)
-# new_test_board.place_ships()
-# new_test_board.print_board()
-
-# # Automated Board Test in preperation for planned player class methods
-# new_test_board = Board(5, True)
-# new_test_board.place_ships()
-# new_test_board.print_board()
