@@ -3,6 +3,8 @@ class Ship:
     Class to represent a Ship
     """
 
+    hit_count = 0
+
     def __init__(self, name, symbol, length):
         self.name = name
         self.symbol = symbol
@@ -31,6 +33,12 @@ class Ship:
             str: Character that represents the Ship
         """
         return self.length
+
+    def increment_hit_counter(self):
+        self.hit_count += 1
+
+    def get_floatation_status(self):
+        return False if self.hit_count == self.get_length() else True
 
 
 class Battleship(Ship):

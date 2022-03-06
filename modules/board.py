@@ -265,14 +265,15 @@ class Board:
         if fire_missile_result == "MISS":
             self.update_guess_board(x_coord, y_coord, fire_missile_result)
             print(fire_missile_result)
-        elif fire_missile_result == "HIT":
+        elif fire_missile_result == "HIT" or fire_missile_result == "SUNK":
             self.update_guess_board(x_coord, y_coord, "HIT")
             print(fire_missile_result)
 
     def check_if_hit(self, x_coord, y_coord):
         shot_result = self.play_board[y_coord][x_coord]
         if isinstance(shot_result, Ship):
-            return "HIT"
+            shot_result.increment_hit_counter()
+            return "HIT" if shot_result.get_floatation_status() else "SUNK"
         else:
             return "MISS"
 
