@@ -32,9 +32,6 @@ class Board:
         """
         return [[None for x in range(size)] for y in range(size)]
 
-    def debug_guess_board(self):
-        print(self.guess_board)
-
     def print_board(self):
         """Prints each row of the board on a separate line in the console"""
         row_num = 0
