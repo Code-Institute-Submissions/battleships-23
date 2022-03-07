@@ -242,21 +242,32 @@ class Board:
         for x, y in input_array:
             self.play_board[x][y] = ship
 
-    def fire_missile(self, opponents_board):
+    def fire_missile(self, opponents_board, input_x_coord=0, input_y_coord=0):
         while True:
-            (
-                x_coord,
-                y_coord,
-            ) = self.prompt_for_coordinates()
+            if self.board_is_automated:
+                x_coord = input_x_coord
+                y_coord = input_y_coord
+            else:
+
+                (
+                    x_coord,
+                    y_coord,
+                ) = self.prompt_for_coordinates()
+
             valid_position = self.check_valid_position([[y_coord, x_coord]])
 
             if valid_position == True or "position overlaps" in valid_position:
                 # Check guess is original
                 if self.guess_board[y_coord][x_coord] is not None:
-                    print(
-                        "You have previously launched a missile here. "
-                        "Please try again.\n"
-                    )
+                    if self.board_is_automated:
+                        # Return False to prompt the Computer Player to
+                        # generate another guess
+                        return False
+                    else:
+                        print(
+                            "You have previously launched a missile here. "
+                            "Please try again.\n"
+                        )
                 else:
                     break
 
@@ -268,6 +279,9 @@ class Board:
         elif fire_missile_result == "HIT" or fire_missile_result == "SUNK":
             self.update_guess_board(x_coord, y_coord, "HIT")
             print(fire_missile_result)
+        # Return True to break the input loop in the Player Class as the
+        # Computer Player guess was valid
+        return True
 
     def check_if_hit(self, x_coord, y_coord):
         shot_result = self.play_board[y_coord][x_coord]
