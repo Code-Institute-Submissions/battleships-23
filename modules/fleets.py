@@ -15,6 +15,12 @@ class Fleet:
         """
         return self.fleet
 
+    def is_fleet_destroyed(self):
+        for ship in self.fleet:
+            if ship.get_floatation_status() == True:
+                return False
+        return True
+
 
 class SmallFleet(Fleet):
     """
@@ -40,8 +46,3 @@ class LargeFleet(Fleet):
 
     def __init__(self):
         pass
-
-
-new_test_small_fleet = SmallFleet()
-ships_in_fleet = new_test_small_fleet.get_ships_in_fleet()
-print(ships_in_fleet)

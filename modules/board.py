@@ -18,7 +18,7 @@ class Board:
         # URL: https://github.com/dnlbowers/battleships
         self.play_board = Board.create_board(size)
         self.guess_board = Board.create_board(size)
-        self.small_fleet = SmallFleet()
+        self.fleet = SmallFleet()
         self.board_is_automated = board_is_automated
 
     def create_board(size):
@@ -61,6 +61,10 @@ class Board:
                     # print(item)
                     if item is None:
                         print(" - |", end="")
+                    elif item == "MISS":
+                        print(" 0 |", end="")
+                    elif item == "HIT":
+                        print(" X |", end="")
                     else:
                         print(" " + item.get_symbol() + " |", end="")
                 print("\t", end="")
@@ -68,7 +72,7 @@ class Board:
         print("\n")
 
     def place_ships(self, automate_placement=False):
-        fleet = self.small_fleet.get_ships_in_fleet()
+        fleet = self.fleet.get_ships_in_fleet()
         ship_placements_remaining = len(fleet)
 
         for ship in fleet:
@@ -102,7 +106,7 @@ class Board:
                 # Create a list of coordinates the ship will occupy on the
                 # board, its position.
                 ship_position = self.create_ship_position_coords(
-                    direction, start_x_coord, start_y_coord, ship.length
+                    direction, start_x_coord, start_y_coord, ship.get_length()
                 )
 
                 # Check if each of the coordinates the ship would occupy
@@ -133,7 +137,7 @@ class Board:
                 " ('h' = horizontal, 'v' = vertical)\n>> "
             )
             if direction != "" and direction in "HVhv":
-                direction.lower()
+                direction = direction.lower()
                 return direction
             else:
                 continue
@@ -166,6 +170,7 @@ class Board:
                 f"{self.alphabet[self.size-1]})\n>> "
             )
             try:
+                y_coord = y_coord.lower()
                 # Convert string to its Unicode to return the integer value and
                 # subtract 97 as that is the value of 'a', 'b' is 98 and so on.
                 y_coord = ord(y_coord) - 97
@@ -237,18 +242,40 @@ class Board:
         for x, y in input_array:
             self.play_board[x][y] = ship
 
+    def fire_missile(self, opponents_board):
+        while True:
+            (
+                x_coord,
+                y_coord,
+            ) = self.prompt_for_coordinates()
+            valid_position = self.check_valid_position([[y_coord, x_coord]])
 
-# Automated Ship Placement Test
-new_test_board = Board(5)
-new_test_board.place_ships(True)
-new_test_board.print_board()
+            if valid_position == True or "position overlaps" in valid_position:
+                # Check guess is original
+                if self.guess_board[y_coord][x_coord] is not None:
+                    print(
+                        "You have previously launched a missile here. "
+                        "Please try again.\n"
+                    )
+                else:
+                    break
 
-# Manual Ship Placement Test
-new_test_board = Board(5)
-new_test_board.place_ships()
-new_test_board.print_board()
+        # Check the opponent's play board
+        fire_missile_result = opponents_board.check_if_hit(x_coord, y_coord)
+        if fire_missile_result == "MISS":
+            self.update_guess_board(x_coord, y_coord, fire_missile_result)
+            print(fire_missile_result)
+        elif fire_missile_result == "HIT" or fire_missile_result == "SUNK":
+            self.update_guess_board(x_coord, y_coord, "HIT")
+            print(fire_missile_result)
 
-# Automated Board Test in preperation for planned player class methods
-new_test_board = Board(5, True)
-new_test_board.place_ships()
-new_test_board.print_board()
+    def check_if_hit(self, x_coord, y_coord):
+        shot_result = self.play_board[y_coord][x_coord]
+        if isinstance(shot_result, Ship):
+            shot_result.increment_hit_counter()
+            return "HIT" if shot_result.get_floatation_status() else "SUNK"
+        else:
+            return "MISS"
+
+    def update_guess_board(self, x_coord, y_coord, guess_result):
+        self.guess_board[y_coord][x_coord] = guess_result
