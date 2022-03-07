@@ -32,6 +32,9 @@ class Board:
         """
         return [[None for x in range(size)] for y in range(size)]
 
+    def debug_guess_board(self):
+        print(self.guess_board)
+
     def print_board(self):
         """Prints each row of the board on a separate line in the console"""
         row_num = 0
@@ -248,11 +251,11 @@ class Board:
                 x_coord,
                 y_coord,
             ) = self.prompt_for_coordinates()
-            valid_position = self.check_valid_position([[x_coord, y_coord]])
+            valid_position = self.check_valid_position([[y_coord, x_coord]])
 
             if valid_position == True or "position overlaps" in valid_position:
                 # Check guess is original
-                if self.guess_board[x_coord][y_coord] is not None:
+                if self.guess_board[y_coord][x_coord] is not None:
                     print(
                         "You have previously launched a missile here. "
                         "Please try again.\n"

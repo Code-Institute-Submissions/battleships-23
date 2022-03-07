@@ -90,4 +90,5 @@ while fleet_destroyed == False:
     current_player.board.print_board()
     current_player.board.fire_missile(current_player.opponent.board)
     current_player.board.print_board()
+    current_player.board.debug_guess_board()
     fleet_destroyed = current_player.opponent.board.fleet.is_fleet_destroyed()
