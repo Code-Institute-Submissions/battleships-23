@@ -1,9 +1,11 @@
 from board import Board
+from itertools import cycle
 
 
 class Player:
     # Smallest board size allowed in this implimentation
     board_size = 5
+    opponent = None
 
     def __init__(self, name):
         self.name = name
@@ -14,6 +16,12 @@ class Player:
     @classmethod
     def set_board_size(cls, board_size):
         cls.board_size = board_size
+
+    def set_opponent(self, opponent_object):
+        self.opponent = opponent_object
+
+    def fire_missile(self):
+        self.board.fire_missile(self.opponent)
 
 
 class HumanPlayer(Player):
@@ -63,27 +71,23 @@ Player.set_board_size(5)
 player1 = HumanPlayer("Test_Human")
 player2 = ComputerPlayer()
 
-# Take turns
-print(player1.get_name())
-player1.place_ships()
-player1.board.print_board()
+# Set Player Opponents
+player1.opponent = player2
+player2.opponent = player1
 
-print(player2.get_name())
-player2.place_ships()
-player2.board.print_board()
+players = [player1, player2]
 
-print(player1.get_name())
-player1.board.fire_missile(player2.board)
-player1.board.print_board()
+turn = cycle(players)
+fleet_destroyed = False
+for player in players:
+    current_player = next(turn)
+    print(current_player.get_name())
+    current_player.place_ships()
 
-print(player2.get_name())
-player2.board.fire_missile(player1.board)
-player2.board.print_board()
-
-print(player1.get_name())
-player1.board.fire_missile(player2.board)
-player1.board.print_board()
-
-print(player2.get_name())
-player2.board.fire_missile(player1.board)
-player2.board.print_board()
+while fleet_destroyed == False:
+    current_player = next(turn)
+    print(current_player.get_name())
+    current_player.board.print_board()
+    current_player.board.fire_missile(current_player.opponent.board)
+    current_player.board.print_board()
+    fleet_destroyed = current_player.opponent.board.fleet.is_fleet_destroyed()
