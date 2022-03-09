@@ -1,5 +1,4 @@
 from board import Board
-from itertools import cycle
 import random
 
 
@@ -70,44 +69,3 @@ class ComputerPlayer(Player):
             result = self.board.fire_missile(
                 self.opponent.board, x_coord, y_coord
             )
-
-
-# DEBUG
-
-# Set Board Size
-Player.set_board_size(5)
-
-# Create Players
-player1 = ComputerPlayer()
-player2 = ComputerPlayer()
-
-# Set Player Opponents
-player1.opponent = player2
-player2.opponent = player1
-
-players = [player1, player2]
-
-turn = cycle(players)
-fleet_destroyed = False
-for player in players:
-    current_player = next(turn)
-    print(current_player.get_name())
-    current_player.place_ships()
-
-while fleet_destroyed == False:
-    current_player = next(turn)
-    print(current_player.get_name())
-    # current_player.board.print_board()
-    current_player.fire_missile()
-    current_player.board.print_board()
-    for ship in current_player.opponent.board.fleet.fleet:
-        print(
-            ship.get_name(),
-            f"\t# Hits = {ship.hit_count},",
-            f"Length = {ship.get_length()},",
-            f"Ship afloat? = {ship.get_floatation_status()}",
-        )
-    print(
-        f"Fleet Destroyed = {current_player.opponent.board.fleet.is_fleet_destroyed()}"
-    )
-    fleet_destroyed = current_player.opponent.board.fleet.is_fleet_destroyed()

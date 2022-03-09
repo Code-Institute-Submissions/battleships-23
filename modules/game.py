@@ -1,0 +1,100 @@
+from player import Player, HumanPlayer, ComputerPlayer
+from itertools import cycle
+import random, os, pyfiglet
+
+
+class Game:
+    user_choice = ""
+    player1 = None
+    player2 = None
+    player_turn_order = None
+
+    print(pyfiglet.figlet_format("Welcome to\nBattleships!", font="slant"))
+
+    def new_game(self):
+        self.user_choice = ""
+        while self.user_choice not in "PRpr" or self.user_choice == "":
+            self.user_choice = input(
+                "Type 'p' to start a game or 'r' to read the rules!\n> "
+            )
+            if self.user_choice.lower() == "r":
+                self.display_instructions()
+            else:
+                self.set_players()
+
+    def display_instructions(self):
+        # TODO Clear Screen
+        print("Instructions Page")
+        self.new_game()
+
+    def set_players(self):
+        while self.user_choice not in "012" or self.user_choice == "":
+            self.user_choice = input("Select a number of players (1 or 2)\n> ")
+            # DEBUG
+            if self.user_choice == "0":
+                self.player1 = ComputerPlayer()
+                self.player2 = ComputerPlayer()
+            # DEBUG END
+            else:
+                username = input("Player 1: Please enter your name..\n> ")
+                self.player1 = HumanPlayer(username)
+                if self.user_choice.lower() == "1":
+                    self.player2 = ComputerPlayer()
+                else:
+                    username = input("Player 2: Please enter your name..\n> ")
+                    self.player2 = HumanPlayer(username)
+
+        self.player1.set_opponent(self.player2)
+        self.player2.set_opponent(self.player1)
+
+        self.set_difficulty()
+
+    def set_difficulty(self):
+        # TODO Future development
+        # - Advaced computer player
+        # - Larger Board Size with LargeFleet
+        Player.set_board_size(5)
+        self.set_play_order(self.player1, self.player2)
+
+    def set_play_order(self, *players):
+        # TODO Simulate Coin Toss
+        self.player_turn_order = cycle(players)
+        self.placement_phase([self.player1, self.player2])
+        pass
+
+    def placement_phase(self, player_list):
+        for player in player_list:
+            current_player = next(self.player_turn_order)
+            print(current_player.get_name())
+            current_player.place_ships()
+        self.firing_phase()
+
+    def firing_phase(self):
+        fleet_destroyed = False
+        while fleet_destroyed == False:
+            current_player = next(self.player_turn_order)
+            print(f"Player turn: {current_player.get_name()}\n\nFleet Health:")
+            for ship in current_player.board.fleet.fleet:
+                print(
+                    ship.get_name(),
+                    f"\tLives Remaining = {ship.get_length() - ship.hit_count},",
+                )
+            print("")
+            current_player.board.print_board()
+            current_player.fire_missile()
+            fleet_destroyed = (
+                current_player.opponent.board.fleet.is_fleet_destroyed()
+            )
+        self.game_over(current_player)
+
+    def game_over(self, winner):
+        print(
+            pyfiglet.figlet_format(
+                f"{winner.get_name()} Won! Woop!!", font="slant"
+            )
+        )
+
+
+# DEBUG
+game = Game()
+game.new_game()
