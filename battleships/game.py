@@ -19,7 +19,7 @@ class Game:
             )
             if self.user_choice.lower() == "r":
                 self.display_instructions()
-            else:
+            elif self.user_choice.lower() == "p":
                 self.set_board_size()
 
     def display_instructions(self):
@@ -48,7 +48,7 @@ class Game:
                 self.player1 = ComputerPlayer()
                 self.player2 = ComputerPlayer()
             # DEBUG END
-            else:
+            elif self.user_choice == "1":
                 username = input("Player 1: Please enter your name..\n> ")
                 self.player1 = HumanPlayer(username)
                 if self.user_choice.lower() == "1":
