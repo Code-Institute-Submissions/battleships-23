@@ -4,7 +4,7 @@ import random
 
 class Player:
     # Smallest board size allowed in this implimentation
-    board_size = 5
+    board_size = 0
     opponent = None
 
     def __init__(self, name):

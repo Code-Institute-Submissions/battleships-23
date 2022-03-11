@@ -20,12 +20,25 @@ class Game:
             if self.user_choice.lower() == "r":
                 self.display_instructions()
             else:
-                self.set_players()
+                self.set_board_size()
 
     def display_instructions(self):
         # TODO Clear Screen
         print("Instructions Page")
         self.new_game()
+
+    def set_board_size(self):
+        while self.user_choice not in "SLsl" or self.user_choice == "":
+            self.user_choice = input(
+                "Select board size ('s' for small or 'l' for large)\n> "
+            )
+            if self.user_choice == "s":
+                Player.set_board_size(5)
+                break
+            elif self.user_choice == "l":
+                Player.set_board_size(9)
+                break
+        self.set_players()
 
     def set_players(self):
         while self.user_choice not in "012" or self.user_choice == "":
@@ -47,13 +60,6 @@ class Game:
         self.player1.set_opponent(self.player2)
         self.player2.set_opponent(self.player1)
 
-        self.set_difficulty()
-
-    def set_difficulty(self):
-        # TODO Future development
-        # - Advaced computer player
-        # - Larger Board Size with LargeFleet
-        Player.set_board_size(5)
         self.set_play_order(self.player1, self.player2)
 
     def set_play_order(self, *players):

@@ -1,4 +1,4 @@
-from .fleets import SmallFleet
+from .fleets import SmallFleet, LargeFleet
 from .ships import Ship
 import random
 
@@ -18,7 +18,10 @@ class Board:
         # URL: https://github.com/dnlbowers/battleships
         self.play_board = Board.create_board(size)
         self.guess_board = Board.create_board(size)
-        self.fleet = SmallFleet()
+        if self.size == 5:
+            self.fleet = SmallFleet()
+        elif self.size == 9:
+            self.fleet = LargeFleet()
         self.board_is_automated = board_is_automated
 
     def create_board(size):
