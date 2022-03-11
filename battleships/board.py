@@ -1,5 +1,5 @@
-from fleets import SmallFleet
-from ships import Ship
+from .fleets import SmallFleet
+from .ships import Ship
 import random
 
 

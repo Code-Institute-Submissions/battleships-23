@@ -1,4 +1,4 @@
-from player import Player, HumanPlayer, ComputerPlayer
+from .player import Player, HumanPlayer, ComputerPlayer
 from itertools import cycle
 import random, os, pyfiglet
 
@@ -93,8 +93,3 @@ class Game:
                 f"{winner.get_name()} Won! Woop!!", font="slant"
             )
         )
-
-
-# DEBUG
-game = Game()
-game.new_game()

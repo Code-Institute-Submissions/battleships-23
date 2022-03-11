@@ -1,4 +1,4 @@
-from ships import Battleship, Submarine
+from .ships import Battleship, Submarine
 
 
 class Fleet:
