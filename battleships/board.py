@@ -289,8 +289,12 @@ class Board:
         fire_missile_result = opponents_board.check_if_hit(x_coord, y_coord)
         if fire_missile_result == "MISS":
             self.update_guess_board(x_coord, y_coord, fire_missile_result)
+            opponents_board.update_play_board(
+                x_coord, y_coord, fire_missile_result
+            )
         elif fire_missile_result == "HIT" or fire_missile_result == "SUNK":
             self.update_guess_board(x_coord, y_coord, "HIT")
+            opponents_board.update_play_board(x_coord, y_coord, "HIT")
         print(f"\n{(fire_missile_result).capitalize()}!")
         sleep(2)
         # Return True to break the input loop in the Player Class as the
@@ -307,3 +311,6 @@ class Board:
 
     def update_guess_board(self, x_coord, y_coord, guess_result):
         self.guess_board[y_coord][x_coord] = guess_result
+
+    def update_play_board(self, x_coord, y_coord, shot_result):
+        self.play_board[y_coord][x_coord] = shot_result
