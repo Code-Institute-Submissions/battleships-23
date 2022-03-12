@@ -68,7 +68,7 @@ class ComputerPlayer(Player):
 
     def fire_missile(self):
         result = False
-        while result == False:
+        while result is False:
             x_coord = random.randint(0, self.board_size - 1)
             y_coord = random.randint(0, self.board_size - 1)
             result = self.board.fire_missile(

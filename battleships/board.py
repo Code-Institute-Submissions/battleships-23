@@ -51,7 +51,7 @@ class Board:
         # CREDIT: Pythondex Tutorial
         # URL: https://pythondex.com/python-battleship-game
 
-        alphabet = self.alphabet[0 : len(combined_boards) + 1]
+        alphabet = self.alphabet[0:len(combined_boards) + 1]
 
         print("")
         for i in range(2):
@@ -268,7 +268,7 @@ class Board:
 
             valid_position = self.check_valid_position([[y_coord, x_coord]])
 
-            if valid_position == True or "position overlaps" in valid_position:
+            if valid_position is True or "position overlaps" in valid_position:
                 # Check guess is original
                 if self.guess_board[y_coord][x_coord] is not None:
                     if self.board_is_automated:
