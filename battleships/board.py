@@ -268,22 +268,19 @@ class Board:
                     y_coord,
                 ) = self.prompt_for_coordinates()
 
-            valid_position = self.check_valid_position([[y_coord, x_coord]])
-
-            if valid_position is True or "position overlaps" in valid_position:
-                # Check guess is original
-                if self.guess_board[y_coord][x_coord] is not None:
-                    if self.board_is_automated:
-                        # Return False to prompt the Computer Player to
-                        # generate another guess
-                        return False
-                    else:
-                        print(
-                            "You have previously launched a missile here. "
-                            "Please try again.\n"
-                        )
+            # Check guess is original
+            if self.guess_board[y_coord][x_coord] is not None:
+                if self.board_is_automated:
+                    # Return False to prompt the Computer Player to
+                    # generate another guess
+                    return False
                 else:
-                    break
+                    print(
+                        "You have previously launched a missile here. "
+                        "Please try again.\n"
+                    )
+            else:
+                break
 
         # Check the opponent's play board
         fire_missile_result = opponents_board.check_if_hit(x_coord, y_coord)
