@@ -41,6 +41,7 @@ class Game:
             self.user_choice = input(
                 "\nSelect board size ('s' for small or 'l' for large)\n> "
             )
+            self.user_choice = self.user_choice.lower()
             if self.user_choice == "s":
                 Player.set_board_size(5)
                 break

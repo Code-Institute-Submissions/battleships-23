@@ -46,7 +46,7 @@ class HumanPlayer(Player):
                 "\n>> "
             )
             if place_ships_response != "" and place_ships_response in "MmAa":
-                place_ships_response.lower()
+                place_ships_response = place_ships_response.lower()
                 if place_ships_response == "m":
                     self.board.place_ships()
                 else:
