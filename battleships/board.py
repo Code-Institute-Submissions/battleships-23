@@ -51,7 +51,9 @@ class Board:
         # CREDIT: Pythondex Tutorial
         # URL: https://pythondex.com/python-battleship-game
 
+        # fmt: off
         alphabet = self.alphabet[0:len(combined_boards) + 1]
+        # fmt: on
 
         print("")
         for i in range(2):
