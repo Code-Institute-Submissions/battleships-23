@@ -1,3 +1,4 @@
+from .mixins import Mixins
 from .board import Board
 import random
 
@@ -35,9 +36,13 @@ class HumanPlayer(Player):
 
     def place_ships(self):
         while True:
+            Mixins.clear_terminal()
             place_ships_response = input(
+                "\n\n"
+                f"--- {self.get_name()} ---"
+                "\n\n"
                 "Would you like to place ships manually or automatically? "
-                "('m' for manual or 'a' for automatic)"
+                "('m' for manually or 'a' for automatically)"
                 "\n>> "
             )
             if place_ships_response != "" and place_ships_response in "MmAa":
