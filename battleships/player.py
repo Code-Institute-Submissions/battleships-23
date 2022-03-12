@@ -41,7 +41,7 @@ class HumanPlayer(Player):
                 "\n\n"
                 f"--- {self.get_name()} ---"
                 "\n\n"
-                "Would you like to place ships manually or automatically? "
+                "Would you like to place ships manually or automatically?\n"
                 "('m' for manually or 'a' for automatically)"
                 "\n>> "
             )

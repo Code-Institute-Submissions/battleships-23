@@ -59,7 +59,7 @@ class Board:
         for i in range(2):
             print("    ", end="")
             for column_num in range(1, len(combined_boards) + 1):
-                print(f" {column_num}  ", end="")
+                print(f"{column_num} ", end="")
             print("\t", end="")
         for combined_row in combined_boards:
             print("")
@@ -68,13 +68,13 @@ class Board:
                 for item in row:
                     # print(item)
                     if item is None:
-                        print(" - |", end="")
+                        print("-|", end="")
                     elif item == "MISS":
-                        print(" 0 |", end="")
+                        print("0|", end="")
                     elif item == "HIT":
-                        print(" X |", end="")
+                        print("X|", end="")
                     else:
-                        print(" " + item.get_symbol() + " |", end="")
+                        print(item.get_symbol() + "|", end="")
                 print("\t", end="")
             row_num += 1
         print("\n")
