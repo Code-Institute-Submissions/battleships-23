@@ -107,6 +107,10 @@ class Game:
                         "\tLives Remaining = "
                         f"{ship.get_length() - ship.hit_count},",
                     )
+                print(
+                    "\nNumber of opponent's ships remaining = "
+                    f"{current_player.opponent.board.fleet.ships_remaining()}"
+                )
                 current_player.board.print_board()
                 print("Please enter the coordinates to fire upon..\n")
             else:

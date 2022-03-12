@@ -15,6 +15,13 @@ class Fleet:
         """
         return self.fleet
 
+    def ships_remaining(self):
+        number_of_ships = 0
+        for ship in self.fleet:
+            if ship.get_floatation_status() == True:
+                number_of_ships += 1
+        return number_of_ships
+
     def is_fleet_destroyed(self):
         for ship in self.fleet:
             if ship.get_floatation_status() == True:
