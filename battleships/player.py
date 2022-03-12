@@ -1,10 +1,11 @@
-from board import Board
-from itertools import cycle
+from .mixins import Mixins
+from .board import Board
+import random
 
 
 class Player:
     # Smallest board size allowed in this implimentation
-    board_size = 5
+    board_size = 0
     opponent = None
 
     def __init__(self, name):
@@ -21,7 +22,7 @@ class Player:
         self.opponent = opponent_object
 
     def fire_missile(self):
-        self.board.fire_missile(self.opponent)
+        self.board.fire_missile(self.opponent.board)
 
 
 class HumanPlayer(Player):
@@ -35,13 +36,17 @@ class HumanPlayer(Player):
 
     def place_ships(self):
         while True:
+            Mixins.clear_terminal()
             place_ships_response = input(
+                "\n\n"
+                f"--- {self.get_name()} ---"
+                "\n\n"
                 "Would you like to place ships manually or automatically? "
-                "('m' for manual or 'a' for automatic)"
+                "('m' for manually or 'a' for automatically)"
                 "\n>> "
             )
             if place_ships_response != "" and place_ships_response in "MmAa":
-                place_ships_response.lower()
+                place_ships_response = place_ships_response.lower()
                 if place_ships_response == "m":
                     self.board.place_ships()
                 else:
@@ -61,33 +66,11 @@ class ComputerPlayer(Player):
     def place_ships(self):
         self.board.place_ships()
 
-
-# DEBUG
-
-# Set Board Size
-Player.set_board_size(5)
-
-# Create Players
-player1 = HumanPlayer("Test_Human")
-player2 = ComputerPlayer()
-
-# Set Player Opponents
-player1.opponent = player2
-player2.opponent = player1
-
-players = [player1, player2]
-
-turn = cycle(players)
-fleet_destroyed = False
-for player in players:
-    current_player = next(turn)
-    print(current_player.get_name())
-    current_player.place_ships()
-
-while fleet_destroyed == False:
-    current_player = next(turn)
-    print(current_player.get_name())
-    current_player.board.print_board()
-    current_player.board.fire_missile(current_player.opponent.board)
-    current_player.board.print_board()
-    fleet_destroyed = current_player.opponent.board.fleet.is_fleet_destroyed()
+    def fire_missile(self):
+        result = False
+        while result == False:
+            x_coord = random.randint(0, self.board_size - 1)
+            y_coord = random.randint(0, self.board_size - 1)
+            result = self.board.fire_missile(
+                self.opponent.board, x_coord, y_coord
+            )

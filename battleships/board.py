@@ -1,5 +1,7 @@
-from fleets import SmallFleet
-from ships import Ship
+from .fleets import SmallFleet, LargeFleet
+from .ships import Ship
+from .mixins import Mixins
+from time import sleep
 import random
 
 
@@ -18,7 +20,10 @@ class Board:
         # URL: https://github.com/dnlbowers/battleships
         self.play_board = Board.create_board(size)
         self.guess_board = Board.create_board(size)
-        self.fleet = SmallFleet()
+        if self.size == 5:
+            self.fleet = SmallFleet()
+        elif self.size == 9:
+            self.fleet = LargeFleet()
         self.board_is_automated = board_is_automated
 
     def create_board(size):
@@ -48,6 +53,7 @@ class Board:
 
         alphabet = self.alphabet[0 : len(combined_boards) + 1]
 
+        print("")
         for i in range(2):
             print("    ", end="")
             for column_num in range(1, len(combined_boards) + 1):
@@ -74,7 +80,7 @@ class Board:
     def place_ships(self, automate_placement=False):
         fleet = self.fleet.get_ships_in_fleet()
         ship_placements_remaining = len(fleet)
-
+        Mixins.clear_terminal()
         for ship in fleet:
             while True:
                 # If board functions (or specifically the placement of ships)
@@ -90,8 +96,10 @@ class Board:
                     # placed
                     print(
                         f"You have {ship_placements_remaining} "
-                        "ships left to place.\n"
-                        f"You are currently placing your '{ship.get_name()}' "
+                        "ships left to place."
+                        "\n\n"
+                        "You are currently placing your "
+                        f"'{ship.get_name()}' "
                         f"which is '{ship.length}' grid spaces long.\n"
                     )
 
@@ -119,6 +127,7 @@ class Board:
                 # user why.
                 if is_ship_position_valid is True:
                     self.add_ship_to_board(ship_position, ship)
+                    Mixins.clear_terminal()
                     break
                 else:
                     # If board functions (or specifically the placement of
@@ -126,6 +135,7 @@ class Board:
                     if self.board_is_automated or automate_placement:
                         continue
                     else:
+                        Mixins.clear_terminal()
                         print(is_ship_position_valid)
 
             ship_placements_remaining -= 1
@@ -138,6 +148,7 @@ class Board:
             )
             if direction != "" and direction in "HVhv":
                 direction = direction.lower()
+                print("")
                 return direction
             else:
                 continue
@@ -163,6 +174,7 @@ class Board:
                     "Invalid Input! "
                     "Please enter a number in the range specified."
                 )
+        print("")
 
         while True:
             y_coord = input(
@@ -224,7 +236,7 @@ class Board:
                 elif isinstance(self.play_board[x][y], Ship):
                     # Ship collision detected
                     valid_placement = (
-                        f"The selected position overlaps "
+                        f"The selected position overlaps your "
                         f"{self.play_board[x][y].get_name()}. "
                         "Please try again..\n"
                     )
@@ -242,21 +254,32 @@ class Board:
         for x, y in input_array:
             self.play_board[x][y] = ship
 
-    def fire_missile(self, opponents_board):
+    def fire_missile(self, opponents_board, input_x_coord=0, input_y_coord=0):
         while True:
-            (
-                x_coord,
-                y_coord,
-            ) = self.prompt_for_coordinates()
+            if self.board_is_automated:
+                x_coord = input_x_coord
+                y_coord = input_y_coord
+            else:
+
+                (
+                    x_coord,
+                    y_coord,
+                ) = self.prompt_for_coordinates()
+
             valid_position = self.check_valid_position([[y_coord, x_coord]])
 
             if valid_position == True or "position overlaps" in valid_position:
                 # Check guess is original
                 if self.guess_board[y_coord][x_coord] is not None:
-                    print(
-                        "You have previously launched a missile here. "
-                        "Please try again.\n"
-                    )
+                    if self.board_is_automated:
+                        # Return False to prompt the Computer Player to
+                        # generate another guess
+                        return False
+                    else:
+                        print(
+                            "You have previously launched a missile here. "
+                            "Please try again.\n"
+                        )
                 else:
                     break
 
@@ -264,10 +287,13 @@ class Board:
         fire_missile_result = opponents_board.check_if_hit(x_coord, y_coord)
         if fire_missile_result == "MISS":
             self.update_guess_board(x_coord, y_coord, fire_missile_result)
-            print(fire_missile_result)
         elif fire_missile_result == "HIT" or fire_missile_result == "SUNK":
             self.update_guess_board(x_coord, y_coord, "HIT")
-            print(fire_missile_result)
+        print(f"\n{(fire_missile_result).capitalize()}!")
+        sleep(2)
+        # Return True to break the input loop in the Player Class as the
+        # Computer Player guess was valid
+        return True
 
     def check_if_hit(self, x_coord, y_coord):
         shot_result = self.play_board[y_coord][x_coord]

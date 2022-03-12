@@ -41,6 +41,15 @@ class Ship:
         return False if self.hit_count == self.get_length() else True
 
 
+class AircraftCarrier(Ship):
+    """
+    Class to represent an Aircraft Carrier, subclass of Ship
+    """
+
+    def __init__(self):
+        super().__init__("Aircraft Carrier", "A", 5)
+
+
 class Battleship(Ship):
     """
     Class to represent a Battleship, subclass of Ship
@@ -50,6 +59,15 @@ class Battleship(Ship):
         super().__init__("Battleship", "B", 4)
 
 
+class Cruiser(Ship):
+    """
+    Class to represent a Cruiser, subclass of Ship
+    """
+
+    def __init__(self):
+        super().__init__("Cruiser", "C", 3)
+
+
 class Submarine(Ship):
     """
     Class to represent a Submarine, subclass of Ship
@@ -57,3 +75,12 @@ class Submarine(Ship):
 
     def __init__(self):
         super().__init__("Submarine", "S", 2)
+
+
+class PatrolBoat(Ship):
+    """
+    Class to represent a Submarine, subclass of Ship
+    """
+
+    def __init__(self):
+        super().__init__("Patrol Boat", "P", 1)
