@@ -41,7 +41,7 @@ class HumanPlayer(Player):
                 "\n\n"
                 f"--- {self.get_name()} ---"
                 "\n\n"
-                "Would you like to place ships manually or automatically? "
+                "Would you like to place ships manually or automatically?\n"
                 "('m' for manually or 'a' for automatically)"
                 "\n>> "
             )
@@ -68,7 +68,7 @@ class ComputerPlayer(Player):
 
     def fire_missile(self):
         result = False
-        while result == False:
+        while result is False:
             x_coord = random.randint(0, self.board_size - 1)
             y_coord = random.randint(0, self.board_size - 1)
             result = self.board.fire_missile(

@@ -47,7 +47,7 @@ class AircraftCarrier(Ship):
     """
 
     def __init__(self):
-        super().__init__("Aircraft Carrier", "A", 5)
+        super().__init__("Carrier", "A", 5)
 
 
 class Battleship(Ship):

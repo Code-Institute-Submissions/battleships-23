@@ -2,7 +2,7 @@ from .player import Player, HumanPlayer, ComputerPlayer
 from .mixins import Mixins
 from itertools import cycle
 from time import sleep
-import pyfiglet
+import pyfiglet, random
 
 
 class Game:
@@ -75,13 +75,32 @@ class Game:
         self.player1.set_opponent(self.player2)
         self.player2.set_opponent(self.player1)
 
-        self.set_play_order(self.player1, self.player2)
+        self.set_play_order()
 
-    def set_play_order(self, *players):
-        # TODO Simulate Coin Toss
-        self.player_turn_order = cycle(players)
+    def set_play_order(self):
+        Mixins.clear_terminal()
+        print("\nTo decide who goes first there will be a coin toss!\n")
+        while True:
+            selected_coin_side = input(
+                f"{self.player1.get_name()}, "
+                "Please choose heads (h) or tails (t)\n> "
+            )
+            if selected_coin_side in "ht":
+                break
+            else:
+                print("Invalid input.. ", end="")
+
+        coin_toss_result = random.choice("ht")
+        coin_toss_winner, coin_toss_loser = (
+            (self.player1, self.player2)
+            if coin_toss_result == selected_coin_side
+            else (self.player2, self.player1)
+        )
+        print(f"Coin toss winner = {coin_toss_winner.name}!")
+        sleep(2)
+
+        self.player_turn_order = cycle([coin_toss_winner, coin_toss_loser])
         self.placement_phase([self.player1, self.player2])
-        pass
 
     def placement_phase(self, player_list):
         for player in player_list:

@@ -51,13 +51,15 @@ class Board:
         # CREDIT: Pythondex Tutorial
         # URL: https://pythondex.com/python-battleship-game
 
-        alphabet = self.alphabet[0 : len(combined_boards) + 1]
+        # fmt: off
+        alphabet = self.alphabet[0:len(combined_boards) + 1]
+        # fmt: on
 
         print("")
         for i in range(2):
             print("    ", end="")
             for column_num in range(1, len(combined_boards) + 1):
-                print(f" {column_num}  ", end="")
+                print(f"{column_num} ", end="")
             print("\t", end="")
         for combined_row in combined_boards:
             print("")
@@ -66,13 +68,13 @@ class Board:
                 for item in row:
                     # print(item)
                     if item is None:
-                        print(" - |", end="")
+                        print("-|", end="")
                     elif item == "MISS":
-                        print(" 0 |", end="")
+                        print("0|", end="")
                     elif item == "HIT":
-                        print(" X |", end="")
+                        print("X|", end="")
                     else:
-                        print(" " + item.get_symbol() + " |", end="")
+                        print(item.get_symbol() + "|", end="")
                 print("\t", end="")
             row_num += 1
         print("\n")
@@ -266,29 +268,30 @@ class Board:
                     y_coord,
                 ) = self.prompt_for_coordinates()
 
-            valid_position = self.check_valid_position([[y_coord, x_coord]])
-
-            if valid_position == True or "position overlaps" in valid_position:
-                # Check guess is original
-                if self.guess_board[y_coord][x_coord] is not None:
-                    if self.board_is_automated:
-                        # Return False to prompt the Computer Player to
-                        # generate another guess
-                        return False
-                    else:
-                        print(
-                            "You have previously launched a missile here. "
-                            "Please try again.\n"
-                        )
+            # Check guess is original
+            if self.guess_board[y_coord][x_coord] is not None:
+                if self.board_is_automated:
+                    # Return False to prompt the Computer Player to
+                    # generate another guess
+                    return False
                 else:
-                    break
+                    print(
+                        "You have previously launched a missile here. "
+                        "Please try again.\n"
+                    )
+            else:
+                break
 
         # Check the opponent's play board
         fire_missile_result = opponents_board.check_if_hit(x_coord, y_coord)
         if fire_missile_result == "MISS":
             self.update_guess_board(x_coord, y_coord, fire_missile_result)
+            opponents_board.update_play_board(
+                x_coord, y_coord, fire_missile_result
+            )
         elif fire_missile_result == "HIT" or fire_missile_result == "SUNK":
             self.update_guess_board(x_coord, y_coord, "HIT")
+            opponents_board.update_play_board(x_coord, y_coord, "HIT")
         print(f"\n{(fire_missile_result).capitalize()}!")
         sleep(2)
         # Return True to break the input loop in the Player Class as the
@@ -305,3 +308,6 @@ class Board:
 
     def update_guess_board(self, x_coord, y_coord, guess_result):
         self.guess_board[y_coord][x_coord] = guess_result
+
+    def update_play_board(self, x_coord, y_coord, shot_result):
+        self.play_board[y_coord][x_coord] = shot_result
