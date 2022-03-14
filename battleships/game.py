@@ -94,7 +94,8 @@ class Game:
                 f"{self.player1.get_name()}, "
                 "Please choose heads (h) or tails (t)\n> "
             )
-            if selected_coin_side in "ht":
+            if selected_coin_side in "HTht":
+                selected_coin_side = selected_coin_side.lower()
                 break
             else:
                 print("Invalid input.. ", end="")
