@@ -61,14 +61,12 @@ class Game:
                 self.player2 = ComputerPlayer()
             # DEBUG END
             elif self.user_choice == "1" or self.user_choice == "2":
-                username = input("\nPlayer 1: Please enter your name..\n> ")
+                username = self.get_player_name("Player 1")
                 self.player1 = HumanPlayer(username)
                 if self.user_choice.lower() == "1":
                     self.player2 = ComputerPlayer()
                 else:
-                    username = input(
-                        "\nPlayer 2: Please enter your name..\n> "
-                    )
+                    username = self.get_player_name("Player 2")
                     self.player2 = HumanPlayer(username)
                     self.human_players_only = True
 
@@ -76,6 +74,17 @@ class Game:
         self.player2.set_opponent(self.player1)
 
         self.set_play_order()
+
+    def get_player_name(self, player_num):
+        while True:
+            username = input(f"\n{player_num}: Please enter your name..\n> ")
+            if len(username.strip()) < 3:
+                print(
+                    "\nPlease enter a name at least 3 characters "
+                    "long to proceed."
+                )
+            else:
+                return username
 
     def set_play_order(self):
         Mixins.clear_terminal()
