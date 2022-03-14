@@ -129,15 +129,13 @@ class Game:
         while True:
             current_player = next(self.player_turn_order)
             if not current_player.board.board_is_automated:
-                print(f"--- {current_player.get_name()} ---\n\nFleet Health:")
+                print(f"--- {current_player.get_name()} ---\n")
+                print("Ship left on board:")
                 for ship in current_player.board.fleet.fleet:
-                    print(
-                        ship.get_name(),
-                        "\tLives Remaining = "
-                        f"{ship.get_length() - ship.hit_count},",
-                    )
+                    if ship.get_floatation_status():
+                        print(ship.get_name(), end=". ")
                 print(
-                    "\nNumber of opponent's ships remaining = "
+                    "\n\nNumber of opponent's ships remaining = "
                     f"{current_player.opponent.board.fleet.ships_remaining()}"
                 )
                 current_player.board.print_board()
