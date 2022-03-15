@@ -2,7 +2,8 @@ from .player import Player, HumanPlayer, ComputerPlayer
 from .mixins import Mixins
 from itertools import cycle
 from time import sleep
-import pyfiglet, random
+import random
+import pyfiglet
 
 
 class Game:
@@ -14,14 +15,11 @@ class Game:
 
     def new_game(self):
         Mixins.clear_terminal()
-        print("\n\n")
-        print(
-            pyfiglet.figlet_format("Welcome to\nBattleships!\n", font="slant")
-        )
+        print(pyfiglet.figlet_format("Welcome to\nBattleships!", font="slant"))
         self.user_choice = ""
         while self.user_choice not in "PRpr" or self.user_choice == "":
             self.user_choice = input(
-                "\nType 'p' to start a game or 'r' to read the rules!\n> "
+                "Type 'p' to start a game or 'r' to read the rules!\n> "
             )
             if self.user_choice.lower() == "r":
                 self.display_instructions()
@@ -30,7 +28,6 @@ class Game:
 
     def display_instructions(self):
         Mixins.clear_terminal()
-        print("\n\n")
         print(pyfiglet.figlet_format("How to Play\n", font="slant"))
         print("Instructions Page")
         input("\nPress enter to return to the main menu..")
@@ -160,9 +157,6 @@ class Game:
             pyfiglet.figlet_format(f"{winner.get_name()} Wins!", font="slant")
         )
         if isinstance(winner, HumanPlayer):
-            print(
-                "Congratulations on your victory! "
-                "Would you like to play again?"
-            )
-        else:
-            print("Would you like to play again?")
+            print("Congratulations on your victory! ", end="")
+
+        print("Would you like to play again?\n")

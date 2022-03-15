@@ -38,7 +38,7 @@ class HumanPlayer(Player):
         while True:
             Mixins.clear_terminal()
             place_ships_response = input(
-                "\n\n"
+                "\n"
                 f"--- {self.get_name()} ---"
                 "\n\n"
                 "Would you like to place ships manually or automatically?\n"

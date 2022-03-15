@@ -240,14 +240,14 @@ class Board:
                     valid_placement = (
                         f"The selected position overlaps your "
                         f"{self.play_board[x][y].get_name()}. "
-                        "Please try again..\n"
+                        "Please try again.."
                     )
                     break
             except IndexError as e:
                 # Out of range
                 valid_placement = (
                     "The selected position would put the ship out of bounds. "
-                    "Please try again..\n"
+                    "Please try again.."
                 )
                 break
         return valid_placement
