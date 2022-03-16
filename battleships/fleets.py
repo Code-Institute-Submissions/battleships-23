@@ -25,7 +25,7 @@ class Fleet:
     get_ships_in_fleet():
         Returns the fleet variable
 
-    get_num_ships_remaining():
+    get_num_afloat():
         Returns the number of ship objects in fleet still afloat
     """
 
@@ -43,7 +43,7 @@ class Fleet:
         """
         return self.fleet
 
-    def get_num_ships_remaining(self):
+    def get_num_afloat(self):
         """Gets the number of ship objects in fleet still afloat
 
         Returns:

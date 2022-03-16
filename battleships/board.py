@@ -1,3 +1,10 @@
+"""
+Creates a board and hold methods to manipulate the board
+
+Classes:
+
+    Board
+"""
 from .fleets import SmallFleet, LargeFleet
 from .ships import Ship
 from .mixins import Mixins
@@ -8,11 +15,76 @@ import random
 class Board:
     """
     Class to represent the game board
+
+    ...
+
+    Class Properties
+    ----------------
+    partial_alphabet = str
+        String containing the letters a - i in alphabetical sequence to be used
+        to label rows
+
+    Attributes
+    ----------
+    size : int
+        Number to represent both the height / width of the board
+    board_is_automated : bool, optional
+        Boolean to determine if board actions should be silent & automated
+
+    Methods
+    -------
+    create_board(size):
+        Creates a 2D list to represent the board
+    print_board():
+        Prints each row of the board on a separate line in the console adding
+        labels and translating list contents to symbols
+    generate_random_coordinates():
+        Create random numbers to use as placement/guess coordinates
+    place_ships(automate_placement=False):
+        If the option argument is passed as True the board actions will be
+        silent (no printout) & automated. Defaults to False.
+    prompt_for_ship_direction():
+        Prompts for (and validates) input used to determine ship placement
+        direction
+    prompt_for_coordinates():
+        Prompts for (and validates) input used to for X and Y coordinates /
+        list index positions
+    create_ship_position_coords(
+        direction, start_x_coord, start_y__coord, ship_length
+        ):
+        Creates list of ship coords which represent the index positions the
+        ship would occupy in the play board list
+    check_valid_position(input_array):
+        Checks if coords (passed as a list) are empty and in-bounds
+    add_ship_to_board(input_array, ship):
+        Add the ship object to each position on the board it will occupy,
+        determined by the ship_position_coords parameter
+    fire_missile(opponents_board, input_x_coord=0, input_y_coord=0):
+        Simulates firing a missile by checking the guess is original and
+        checking the opponent's play board
+    check_if_hit(x_coord, y_coord):
+        Checks if play board position is a ship. Increments the ship objects
+        hit counter if it is a ship and then checks to see if it is still
+        afloat before returning the result ("HIT", "SUNK" or "MISS").
+    update_guess_board(x_coord, y_coord, guess_result):
+        Update the guess board, called by the players board during a game
+    update_play_board(x_coord, y_coord, shot_result):
+        Update the play board, called by the opponents board object during a
+        game
     """
 
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    partial_alphabet = "abcdefghi"
 
     def __init__(self, size, board_is_automated=False):
+        """
+        Constructs all the necessary attributes for the board object
+
+        Args:
+            size (int): Represents both the height & width of the board
+            board_is_automated (bool, optional): If the option argument is
+                passed as True the board actions will be silent (no printout) &
+                automated. Defaults to False.
+        """
         self.size = size
         # Idea to use 2 boards per player, 1 to hold ships and 1 to hold
         # guesses from David Bowers project.
@@ -27,7 +99,8 @@ class Board:
         self.board_is_automated = board_is_automated
 
     def create_board(size):
-        """Creates a 2D list to represent the board
+        """
+        Creates a 2D list to represent the board
 
         Args:
             size (int): Number of items in each list, and the number of lists
@@ -38,11 +111,13 @@ class Board:
         return [[None for x in range(size)] for y in range(size)]
 
     def print_board(self):
-        """Prints each row of the board on a separate line in the console"""
+        """
+        Prints each row of the board on a separate line in the console adding
+        labels and translating list contents to symbols
+        """
         row_num = 0
 
-        # Idea to use print boards next to each other from David Bowers
-        # project.
+        # Idea to print boards next to each other from David Bowers project.
         # CREDIT: David Bowers
         # URL: https://github.com/dnlbowers/battleships
         combined_boards = list(zip(self.play_board, self.guess_board))
@@ -52,7 +127,7 @@ class Board:
         # URL: https://pythondex.com/python-battleship-game
 
         # fmt: off
-        alphabet = self.alphabet[0:len(combined_boards) + 1]
+        row_char = self.partial_alphabet[0:len(combined_boards) + 1]
         # fmt: on
 
         print("")
@@ -64,7 +139,7 @@ class Board:
         for combined_row in combined_boards:
             print("")
             for row in combined_row:
-                print(f"{alphabet[row_num]}) |", end="")
+                print(f"{row_char[row_num]}) |", end="")
                 for item in row:
                     # print(item)
                     if item is None:
@@ -79,7 +154,26 @@ class Board:
             row_num += 1
         print("\n")
 
+    def generate_random_coordinates(self):
+        """
+        Create random numbers to use as placement/guess coordinates
+
+        Returns:
+            int, int: Returns 2 numbers representing x and y coordinates
+        """
+        x = random.randint(0, self.size - 1)
+        y = random.randint(0, self.size - 1)
+        return x, y
+
     def place_ships(self, automate_placement=False):
+        """
+        Place ships on the board
+
+        Args:
+            automate_placement (bool, optional): If the option argument is
+                passed as True the board actions will be silent (no printout) &
+                automated. Defaults to False.
+        """
         fleet = self.fleet.get_ships_in_fleet()
         ship_placements_remaining = len(fleet)
         Mixins.clear_terminal()
@@ -90,8 +184,10 @@ class Board:
                 # and prompt for input.
                 if self.board_is_automated or automate_placement:
                     direction = random.choice(["h", "v"])
-                    start_x_coord = random.randint(0, self.size - 1)
-                    start_y_coord = random.randint(0, self.size - 1)
+                    (
+                        start_x_coord,
+                        start_y_coord,
+                    ) = self.generate_random_coordinates()
                 else:
                     self.print_board()
                     # Present information to user regarding current ship to be
@@ -105,7 +201,7 @@ class Board:
                         f"which is '{ship.length}' grid spaces long.\n"
                     )
 
-                    # Functions which prompt for and validate user input
+                    # Functions which prompt for (and validate) user input
                     # regarding ship placement
                     direction = self.prompt_for_ship_direction()
                     (
@@ -114,7 +210,7 @@ class Board:
                     ) = self.prompt_for_coordinates()
 
                 # Create a list of coordinates the ship will occupy on the
-                # board, its position.
+                # board (a.k.a its position).
                 ship_position = self.create_ship_position_coords(
                     direction, start_x_coord, start_y_coord, ship.get_length()
                 )
@@ -143,6 +239,13 @@ class Board:
             ship_placements_remaining -= 1
 
     def prompt_for_ship_direction(self):
+        """
+        Prompts for (and validates) input used to determine ship placement
+        direction
+
+        Returns:
+            str: Character which represents direction ('h' or 'v')
+        """
         while True:
             direction = input(
                 "Please enter an orientation for your ship"
@@ -156,13 +259,20 @@ class Board:
                 continue
 
     def prompt_for_coordinates(self):
+        """
+        Prompts for (and validates) input used to for X and Y coordinates /
+        list index positions
+
+        Returns:
+            int, int: Numbers which represent X and Y coordinates
+        """
+
         x_coord = 0
         y_coord = 0
 
+        # Prompt for x coordinate
         while True:
-            x_coord = input(
-                f"Enter Start x Coordinate (1 - " f"{self.size})\n>> "
-            )
+            x_coord = input(f"Enter x Coordinate (1 - " f"{self.size})\n>> ")
             try:
                 x_coord = int(x_coord)
             except ValueError:
@@ -178,10 +288,11 @@ class Board:
                 )
         print("")
 
+        # Prompt for y coordinate
         while True:
             y_coord = input(
-                f"Enter Start y Coord (a - "
-                f"{self.alphabet[self.size-1]})\n>> "
+                f"Enter y Coord (a - "
+                f"{self.partial_alphabet[self.size-1]})\n>> "
             )
             try:
                 y_coord = y_coord.lower()
@@ -204,17 +315,17 @@ class Board:
     def create_ship_position_coords(
         self, direction, start_x_coord, start_y__coord, ship_length
     ):
-        """Creates list of ship coords to be used in testing
+        """
+        Creates list of ship coords which represent the index positions the
+        ship would occupy in the play board list
 
         Args:
             direction (str): Horizontal ('l') or vertical ('d') axis
-            start_x_coord (int): X coordinate to start from
-            start_y__coord (int): Y coordinate to start from
-            ship_length (int): Length of ship
+            start_x_coord (int): X coordinate to start from start_y__coord
+            (int): Y coordinate to start from ship_length (int): Length of ship
 
         Returns:
-            list: 2D list of coordinates to represent the placement of the
-            ship
+            list: 2D list of coordinates to represent the placement of the ship
         """
         ship_coords = []
 
@@ -226,12 +337,23 @@ class Board:
                 ship_coords.append([start_y__coord + i, start_x_coord])
         return ship_coords
 
-    def check_valid_position(self, input_array):
+    def check_valid_position(self, ship_position_coords):
         """
-        Checks if coords (passed as a list) are empty and in-bounds
+        Checks if coords (passed as a list) are empty, within the bounds of the
+        board and not over lapping so a ship can be placed there.
+
+
+        Args:
+            ship_position_coords (list):
+                Creates list of ship coords which represent the index positions
+                the ship would occupy in the play board list
+
+        Returns:
+            bool: Used by the calling method to determine if coordinates are
+                valid
         """
         valid_placement = False
-        for x, y in input_array:
+        for x, y in ship_position_coords:
             try:
                 if self.play_board[x][y] is None:
                     valid_placement = True
@@ -252,11 +374,38 @@ class Board:
                 break
         return valid_placement
 
-    def add_ship_to_board(self, input_array, ship):
-        for x, y in input_array:
+    def add_ship_to_board(self, ship_position_coords, ship):
+        """
+        Add the ship object to each position on the board it will occupy,
+        determined by the ship_position_coords parameter
+
+        Args:
+            ship_position_coords (list): Creates list of ship coords which
+                represent the index positions the ship would occupy in the play
+            board list ship (object): Ship object
+        """
+        for x, y in ship_position_coords:
             self.play_board[x][y] = ship
 
     def fire_missile(self, opponents_board, input_x_coord=0, input_y_coord=0):
+        """
+        Simulates firing a missile by checking the guess is original and
+        checking the opponent's play board
+
+        Args:
+            opponents_board (object): Object containing opponent players board
+                object
+            input_x_coord (int, optional): Used to facilitate an automated
+                player specifying random coordinates when calling the method.
+                Defaults to 0
+            input_y_coord (int, optional): Used to facilitate an automated
+                player specifying random coordinates when calling the method.
+                Defaults to 0
+
+        Returns:
+            bool: Used by the calling method to determine if coordinates are
+                original/valid
+        """
         while True:
             if self.board_is_automated:
                 x_coord = input_x_coord
@@ -299,15 +448,44 @@ class Board:
         return True
 
     def check_if_hit(self, x_coord, y_coord):
-        shot_result = self.play_board[y_coord][x_coord]
-        if isinstance(shot_result, Ship):
-            shot_result.increment_hit_counter()
-            return "HIT" if shot_result.get_floatation_status() else "SUNK"
+        """
+        Checks if play board position is a ship. Increments the ship objects
+        hit counter if it is a ship and then checks to see if it is still
+        afloat before returning the result ("HIT", "SUNK" or "MISS").
+
+        Args:
+            x_coord (int): Number representing the X coordinate input
+            y_coord (int): Number representing the Y coordinate input
+
+        Returns:
+            str: Result of the check ("HIT", "SUNK" or "MISS")
+        """
+        board_position = self.play_board[y_coord][x_coord]
+        if isinstance(board_position, Ship):
+            board_position.increment_hit_counter()
+            return "HIT" if board_position.get_floatation_status() else "SUNK"
         else:
             return "MISS"
 
     def update_guess_board(self, x_coord, y_coord, guess_result):
+        """
+        Update the guess board, called by the players board during a game
+
+        Args:
+            x_coord (int): Number representing the X coordinate input
+            y_coord (int): Number representing the Y coordinate input
+            guess_result (str): Represents the guess outcome ("HIT", "MISS")
+        """
         self.guess_board[y_coord][x_coord] = guess_result
 
     def update_play_board(self, x_coord, y_coord, shot_result):
+        """
+        Update the play board, called by the opponents board object during a
+        game
+
+        Args:
+            x_coord (int): Number representing the X coordinate input
+            y_coord (int): Number representing the Y coordinate input
+            guess_result (str): Represents the guess outcome ("HIT", "MISS")
+        """
         self.play_board[y_coord][x_coord] = shot_result
