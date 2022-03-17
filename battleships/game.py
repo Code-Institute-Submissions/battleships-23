@@ -192,7 +192,7 @@ class Game:
                 f"{self.player1.get_name()}, "
                 "Please choose heads (h) or tails (t)\n> "
             )
-            if selected_coin_side in "HTht":
+            if selected_coin_side in "HTht" and selected_coin_side != "":
                 selected_coin_side = selected_coin_side.lower()
                 break
             else:
