@@ -99,8 +99,25 @@ class Game:
         screen
         """
         Mixins.clear_terminal()
-        print(pyfiglet.figlet_format("How to Play\n", font="slant"))
-        print("Instructions Page")
+        print("\nHow to Play\n")
+        print(
+            "- Your first choice is to pick a board size!\n"
+            "   - Small = a 5 x 5 board with a fleet of 4 ships to place.\n"
+            "   - Large = a 9 x 9 board with a fleet of 7 ships to place.\n"
+            "- Play a 1 player game against the computer or go head to head "
+            "against a\n  friend locally.\n"
+            "- Guess correctly in the Coin toss to take your turn first, "
+            "then place your\n  ships and let battle commence!\n"
+            "- Information about your fleet (and you opponents) is shown "
+            "during the\n  firing phase.\n"
+            "- Your 'play board' on the left (your ship positions and "
+            "opposition\n"
+            "  guesses), and your guess board is on the right (your previous "
+            "guesses.\n"
+            "- The winner is the first to sink all their opponents ships, "
+            "good luck!"
+        )
+
         input("\nPress enter to return to the main menu..")
         self.new_game()
 
