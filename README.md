@@ -579,7 +579,7 @@ our GitHub account to view and/or make changes without affecting the original
 repository by using the following steps...
 
 1. Log in to GitHub and locate the [GitHub
-   Repository](https://github.com/ianmeigh/category-quiz)
+   Repository](https://github.com/ianmeigh/battleships)
 1. At the top of the Repository (not top of page) just above the "Settings"
    Button on the menu, locate the "Fork" Button.
 1. Click the button (not the number to the right) and you should now have a copy
@@ -587,7 +587,7 @@ repository by using the following steps...
 
 ### Making a Local Clone
 
-1. Log in to GitHub and locate the [GitHub Repository](https://github.com/ianmeigh/category-quiz).
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/ianmeigh/battleships).
 1. Under the repository name, click "Code".
 1. To clone the repository using HTTPS, under "HTTPS", copy the link.
 1. Open your local terminal with git installed
@@ -596,13 +596,13 @@ repository by using the following steps...
 1. Type `git clone`, and then paste the URL you copied in Step 3.
 
     ```console
-    $ git clone https://github.com/ianmeigh/category-quiz.git
+    $ git clone https://github.com/ianmeigh/battleships.git
     ```
 
 1. Press Enter. Your local clone will be created.
 
     ```console
-    $ git clone https://github.com/ianmeigh/category-quiz.git
+    $ git clone https://github.com/ianmeigh/battleships.git
     > Cloning into `test-dir`...
     > remote: Counting objects: 10, done.
     > remote: Compressing objects: 100% (8/8), done.
