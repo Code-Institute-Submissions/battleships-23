@@ -559,6 +559,13 @@ testing:
   string as detected during testing (see [Testing
   Methodology](#testing-methodology) section).
 
+- Add code to resolve move from 2 players to 1 - [Link to
+  Commit](https://github.com/ianmeigh/battleships/commit/efa8c48cf414cb4ad433410a94e1d61e69b9c899)
+
+  If a new game 1 player game was started after a 2 player game had been
+  completed, the variable to enable the pass and play pause screens was not
+  being reset to False.
+
 ### Remaining Known Bugs
 
 None
