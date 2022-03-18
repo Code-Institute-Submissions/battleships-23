@@ -162,6 +162,7 @@ class Game:
                 # A 1 player game so player 2 must be the computer
                 if self.user_choice.lower() == "1":
                     self.player2 = ComputerPlayer()
+                    self.human_players_only = False
                 # A 2 player game so ask for the name of player 2
                 else:
                     username = self.request_player_name(2)
