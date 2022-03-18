@@ -43,6 +43,7 @@ class Player:
         Call the board objects method to fire a missile
     """
 
+    board = None
     board_size = 0
     opponent = None
 
@@ -84,6 +85,9 @@ class Player:
         self.opponent = player_object
 
     def place_ships(self):
+        """
+        Call the board objects method to place a ship
+        """
         self.board.place_ships()
 
     def fire_missile(self):
