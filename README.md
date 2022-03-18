@@ -1,21 +1,21 @@
 # Battleships
 
-Battleships is an version of the classic game of the same name. This
+Battleships is a version of the classic game of the same name. This
 implementation allows for either a 1 player (human vs computer) match or for 2
 players to go head to head via pass and play.
 
-Visitors can choose to play on 2 sizes of board, small (5x5) or large (9x9). The
-size of the board will alter the size of the fleet (of number of ships) they
+Players can choose to play on 2 sizes of board, small (5x5) or large (9x9). The
+size of the board will alter the size of the fleet (number of ships) they
 each have.
 
 Players can choose to place ships manually or have this done for them, before
 starting the firing phase of the game. Useful information is displayed about the
-ships remaining in the players fleet and the number of opponent ships remaining.
-The left board displays the current players ship placements and their
-opposition's guesses, and on the right board their own guess history is
+ships remaining in the player's fleet and the number of opponent ships
+remaining. The left board displays the current player's ship placements and
+their opposition's guesses, and on the right board their own guess history is
 displayed.
 
-The winner is the first to sink all their opponents ships!
+The winner is the first to sink all of their opponent's ships!
 
 The site was designed to showcase skills acquired during the learning portion of
 the Code Institute Python module.
@@ -26,42 +26,41 @@ the Code Institute Python module.
 
 ## Table of contents
 
-- [Battleships](#battleships)
-  - [Demo](#demo)
-  - [Table of contents](#table-of-contents)
-  - [User Experience (UX)](#user-experience--ux-)
-    - [User stories](#user-stories)
-      - [First Time Visitor Goals](#first-time-visitor-goals)
-      - [Returning Visitor Goals](#returning-visitor-goals)
-  - [Project aims](#project-aims)
-  - [Planning](#planning)
-  - [Features](#features)
-    - [Future Development](#future-development)
-  - [Data model](#data-model)
-    - [Overview of classes](#overview-of-classes)
-  - [Technologies Used](#technologies-used)
-    - [Languages Used](#languages-used)
-    - [Modules, Packages & Programs Used](#modules--packages---programs-used)
-  - [Testing](#testing)
-    - [W3C Markup Validators](#w3c-markup-validators)
-    - [PEP8 Online](#pep8-online)
-    - [Further Testing](#further-testing)
-      - [Testing Methodology](#testing-methodology)
-      - [Chrome Lighthouse](#chrome-lighthouse)
-      - [Devices Used for End-User testing](#devices-used-for-end-user-testing)
-    - [Fixed Bugs](#fixed-bugs)
-      - [Code Fixes](#code-fixes)
-    - [Remaining Known Bugs](#remaining-known-bugs)
-  - [Deployment](#deployment)
-    - [Forking the GitHub Repository](#forking-the-github-repository)
-    - [Making a Local Clone](#making-a-local-clone)
-    - [Deploying with Heroku](#deploying-with-heroku)
-  - [Credits](#credits)
-    - [Code](#code)
-    - [Inspiration](#inspiration)
-    - [Acknowledgements](#acknowledgements)
+- [User Experience (UX)](#user-experience--ux-)
+  - [User stories](#user-stories)
+    - [First Time Visitor Goals](#first-time-visitor-goals)
+    - [Returning Visitor Goals](#returning-visitor-goals)
+- [Project aims](#project-aims)
+- [Planning](#planning)
+- [Features](#features)
+  - [Future Development](#future-development)
+- [Data model](#data-model)
+  - [Overview of classes](#overview-of-classes)
+  - [UML Diagram](#uml-diagram)
+- [Technologies Used](#technologies-used)
+  - [Languages Used](#languages-used)
+  - [Modules, Packages & Programs Used](#modules--packages---programs-used)
+- [Testing](#testing)
+  - [W3C Markup Validators](#w3c-markup-validators)
+  - [PEP8 Online](#pep8-online)
+  - [Further Testing](#further-testing)
+    - [Testing Methodology](#testing-methodology)
+    - [Chrome Lighthouse](#chrome-lighthouse)
+    - [Devices Used for End-User testing](#devices-used-for-end-user-testing)
+  - [Fixed Bugs](#fixed-bugs)
+    - [Code Fixes](#code-fixes)
+  - [Remaining Known Bugs](#remaining-known-bugs)
+- [Deployment](#deployment)
+  - [Forking the GitHub Repository](#forking-the-github-repository)
+  - [Making a Local Clone](#making-a-local-clone)
+  - [Deploying with Heroku](#deploying-with-heroku)
+- [Credits](#credits)
+  - [Code](#code)
+  - [Inspiration](#inspiration)
+  - [Acknowledgements](#acknowledgements)
 
-Table of contents generated with [markdown-toc](http://ecotrust-canada.github.io/markdown-toc/)
+*Table of contents generated with
+[markdown-toc](http://ecotrust-canada.github.io/markdown-toc/)*
 
 ## User Experience (UX)
 
@@ -73,7 +72,7 @@ Table of contents generated with [markdown-toc](http://ecotrust-canada.github.io
 #### First Time Visitor Goals
 
 - I want to understand clearly the rules of the game.
-- I want to start a game a short game against a computer to see if I enjoy it.
+- I want to start a short game against a computer to see if I enjoy it.
 - I want to be able to play the game with a friend for a greater challenge.
 - I want to be given information about my ships so I don’t have to work this out
   from the board.
@@ -93,7 +92,7 @@ Table of contents generated with [markdown-toc](http://ecotrust-canada.github.io
 I started by creating some basic prototype functions to get a feel for how I
 wanted the game to flow while I was learning more about OOP.
 
-From this work I produced the following flowchart to guide my through the
+From this work I produced the following flowchart to guide me through the
 development process:
 
 ![Flowchart](assets/docs/planning/flowchart.png)
@@ -110,11 +109,15 @@ VSCode extension.
 
       - > *I want to understand clearly the rules of the game.*
 
-    - The game welcomes you with a large  title of the game to make it clear
-      this is a battleships game. From here the player can display the rules of
-      the game to understand what is expected of them before starting a game.
+    - The game welcomes you with a large title of the game to make it clear this
+      is a battleships game. From here the player can display the rules of the
+      game to understand what is expected of them before starting a game.
+
+      Welcome Screen
 
       ![Welcome Screen](assets/docs/features/features-welcome.png)
+
+      Instructions
 
       ![Instructions Screen](assets/docs/features/features-instructions.png)
 
@@ -128,14 +131,14 @@ VSCode extension.
       - > *I want to play a longer version of the game.*
 
     - When the player selects to play the game they have to go through a short
-      setup phase. Here they will be asked the specify the number of players,
-      the size of the board (abstracted as small or large), and their name(s).
+      setup phase. Here they will be asked to specify the number of players, the
+      size of the board (abstracted as small or large), and their name(s).
 
       A short game would be played on a small board (5x5) which has a small
       fleet (4 ships).
 
-      If a 2 player game is specified then a screen to pause play before the
-      game starts and at the end of each turn is presented whilst players swap
+      If a 2 player game is specified then a screen is presented to pause play
+      before the game starts and at the end of each turn whilst players swap
       seats.
 
       A longer game would be played on the large board (9x9) which has a large
@@ -153,16 +156,16 @@ VSCode extension.
       until the ship passes and can be placed on the board. This repeats until
       all ships in the fleet have been placed.
 
-      Manual placement follows the same logic but the player is asked to input the
-      variables and the board is presented to them. If placement is manual the
-      play is told which ship is currently being placed and how many spaces it
-      will occupy.
+      Manual placement follows the same logic but the player is asked to input
+      the variables and the board is presented to them. If placement is manual
+      the player is told which ship is currently being placed and how many
+      spaces it will occupy.
 
-      If the player does not enter valid input they will be told why the input is
-      not valid and prompted again. If they overlap a ship or place a ship outside
-      the bounds of the board this will also be fed back and they will be prompted
-      begin placement of the ship again until it can be placed. Again this stage
-      repeats until all ships in the fleet have been placed.
+      If the player does not enter valid input they will be told why the input
+      is not valid and prompted again. If they overlap a ship or place a ship
+      outside the bounds of the board this will also be fed back and they will
+      be prompted to begin placement of the ship again until it can be placed.
+      Again this stage repeats until all ships in the fleet have been placed.
 
       ![Placement Phase](assets/docs/features/features-placementphase.gif)
 
@@ -178,7 +181,7 @@ VSCode extension.
       fleet and the number of opponent ships remaining. The left board displays
       the current players ship placements, with each ship represented by its
       symbol (which is set to its initial character) and oppositions guesses in
-      the form of X’s for Hits and O’s for misses. On the right board the
+      the form of X’s for Hits and O’s for Misses. On the right board the
       current players own guess history is shown in the same X and O format.
 
       The firing phase will prompt a human player for coordinates or generate
@@ -186,22 +189,22 @@ VSCode extension.
       checked against the guess board list to see if they have been previously
       used and prompt for or generate new coordinates if they are not original.
 
-      The value of the position on the opponents play board list is checked. If
+      The value of the position on the opponent's play board list is checked. If
       the index position contains an instance of a ship class, the object
-      variable used to track hits for that object is incremented . The ship
-      object is then checked to see if it the number of times it has been hit is
-      equal to its length, if this is true then the user is notified that they
+      variable used to track hits for that object is incremented. The ship
+      object is then checked to see if the number of times it has been hit is
+      equal to its length. If this is true then the user is notified that they
       have ‘Sunk’ the target, otherwise the message will state they have ‘Hit’ a
       ship.
 
       If the list position is None (empty) then a miss is reported.
 
-      The results are added to each board (opponents play board to show where
-      they guessed, and their own guess board.
+      The results are added to each board (the opponent's play board to show
+      where they guessed, and their own guess board).
 
-      The status of the opponents fleet is then checked to see if any ships are
+      The status of the opponent's fleet is then checked to see if any ships are
       still afloat. If there are no ships remaining the game over screen is
-      displayed otherwise play is passed to the next player.
+      displayed. Otherwise play is passed to the next player.
 
       ![Firing Phase](assets/docs/features/features-firingphase.gif)
 
@@ -242,14 +245,14 @@ VSCode extension.
 
   [The Battleship Algorithm](https://www.youtube.com/watch?v=LbALFZoRrw8)
 
-  I would have particular focused on 2 strategies mentioned in the video:
+  I would have particularly focused on 2 strategies mentioned in the video:
 
   - Parity - Only target alternating spaces (visualize a checkers board) which
-    reduces the number of spaces in guess in by 50%.
+    reduces the number of spaces to guess in by 50%.
 
   - Seek and Destroy - As soon as a hit is detected the surrounding tiles would
-    be checked until another hit is detected and repeat until the ship had been
-    sunk.
+    be checked until another hit is detected. This would be repeated until the
+    ship had been sunk.
 
   As my advanced computer player was not properly planned at the start of
   development I faced problems getting the information needed for the computer
@@ -257,8 +260,8 @@ VSCode extension.
   Destroy strategy and ultimately ran out of time.
 
   I had determined how to implement parity in my guesses (prototype code below).
-  However this was somewhat negated by the late addition on a ship that only
-  occupied 1 space and some some random input would still have been required.
+  However this was somewhat negated by the late addition of a ship that only
+  occupied 1 space and some random input would still have been required.
 
   ```python
   from itertools import cycle
@@ -291,7 +294,7 @@ VSCode extension.
 
 - Leaderboard
   
-  Using a database or a spreadsheet, the latter the example in the Code
+  Using a database or a spreadsheet, the latter was the example in the Code
   Institute sample project. This would have also required the implementation of
   a way to time the game or assign a score to certain actions.
 
@@ -303,21 +306,24 @@ VSCode extension.
 
 ## Data model
 
-I implemented my project using Object Oriented Programming and used classes and methods to store and manipulate data.
+I implemented my project using Object Oriented Programming and used classes and
+methods to store and manipulate data.
 
 ### Overview of classes
 
-Each portion of the game was separated in to separate file (or module). This meant in the end I have a total of 5 modules containing classes the represent the ships, fleets, boards, players and the game.
+Each portion of the game was separated into files (or modules). This meant in
+the end I have a total of 5 modules containing classes that represent the ships,
+fleets, boards, players and the game.
 
 A mixin module was created but only contains one method. This was left separate for future development purposes.
 
-Please find below an brief overview of my modules. Please refer to each of the linked files for more detailed information as each module has been documented using detailed docstrings.
+Please find below a brief overview of my modules with a UML Diagram. Please refer to each of the linked files for more information as each module has been documented using detailed docstrings.
 
 - [Board Class](https://github.com/ianmeigh/battleships/blob/main/modules/board.py)
   - Creates a board and hold methods to manipulate the board.
 - [Player Class](https://github.com/ianmeigh/battleships/blob/main/modules/player.py)
-  - Each player will have their own instance of the board class Player
-    attributes will be set here such to set names and levels of play automation.
+  - Each player will have their own instance of the board class. Player
+    attributes will be set here, such as name and levels of play automation.
     Overwritten methods from the player base class allow each subclass of player
     to behave differently to one another.
 - [Ship Class](https://github.com/ianmeigh/battleships/blob/main/modules/ships.py)
@@ -331,6 +337,10 @@ Please find below an brief overview of my modules. Please refer to each of the l
   - Contain all the logic controlling the flow of the game such as game setup
     and player turns through the different phases of the game.
 
+### UML Diagram
+
+![UML Diagram](assets/docs/uml-diagram.png)
+
 ## Technologies Used
 
 ### Languages Used
@@ -340,22 +350,34 @@ Please find below an brief overview of my modules. Please refer to each of the l
 ### Modules, Packages & Programs Used
 
 - Built-in Packages/Modules
-  - [os](https://docs.python.org/3/library/os.html) - This module provides a portable way of using operating system dependent functionality.
-  - [time](https://docs.python.org/3/library/time.html) - This module provides various time-related functions.
-  - [random](https://docs.python.org/3/library/random.html) - Generate pseudo-random numbers.
-  - [itertools](https://docs.python.org/3/library/itertools.html) - Functions creating iterators for efficient looping.
+  - [os](https://docs.python.org/3/library/os.html) - This module provides a
+    portable way of using operating system dependent functionality.
+  - [time](https://docs.python.org/3/library/time.html) - This module provides
+    various time-related functions.
+  - [random](https://docs.python.org/3/library/random.html) - Generate
+    pseudo-random numbers.
+  - [itertools](https://docs.python.org/3/library/itertools.html) - Functions
+    creating iterators for efficient looping.
 - External Python Packages
   - [Pyfiglet:](https://github.com/pwaller/pyfiglet)
-    - pyfiglet is a full port of [FIGlet](http://www.figlet.org/) into pure python.
-      It takes text and renders it in ASCII art fonts.
-- [Visual Studio Code:](https://code.visualstudio.com/)
-  - Visual Studio Code was used as my code editor for this project. A full list
-    of plugins used can be found later in this section.
-- [Git](https://git-scm.com/)
-  - Git was used for version control, using the terminal to commit to Git and
-    Push to GitHub.
-- [GitHub:](https://github.com/)
-  - GitHub is used to store the projects code after being pushed from Git.
+    - pyfiglet is a full port of [FIGlet](http://www.figlet.org/) into pure
+      python. It takes text and renders it in ASCII art fonts.
+  - [pylint:](https://www.pylint.org/)
+    - Pylint is a Python static code analysis tool which looks for programming
+      errors, helps enforcing a coding standard, sniffs for code smells and
+      offers simple refactoring suggestions.
+- Programs
+  - [Visual Studio Code:](https://code.visualstudio.com/)
+    - Visual Studio Code was used as my code editor for this project. A full
+      list of plugins used can be found later in this section.
+  - [Git](https://git-scm.com/)
+    - Git was used for version control, using the terminal to commit to Git and
+      Push to GitHub.
+  - [GitHub:](https://github.com/)
+    - GitHub is used to store the projects code after being pushed from Git.
+  - [Graphviz:](https://graphviz.org/)
+    - Graphviz is open source graph visualization software. Used with
+      `pyreverse` (packaged with `pylint`) to generate the UML diagram.
 - The following modules were installed or enabled in [Visual Studio
 Code](https://code.visualstudio.com/) to assist with formatting and code
 linting:
@@ -375,9 +397,12 @@ linting:
 
 ### W3C Markup Validators
 
-The [W3C Markup Validator](https://validator.w3.org/nu/) and [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) Services were used to validate the project to ensure there were no syntax errors or warnings.
+The [W3C Markup Validator](https://validator.w3.org/nu/) and [W3C CSS
+Validator](https://jigsaw.w3.org/css-validator/) Services were used to validate
+the project to ensure there were no syntax errors or warnings.
 
-All test passed with no errors and the results can be viewed by visiting the linked pages below:
+All test passed with no errors and the results can be viewed by visiting the
+linked pages below:
 
 - [Results for index page (HTML)](https://validator.w3.org/nu/?doc=https%3A%2F%2Fci-pp3-battleships.herokuapp.com)
 - [Results for
@@ -397,23 +422,24 @@ No problems were present in my final Python code.
 
 #### Testing Methodology
 
-To test the application throughout its development, regular full play sessions
-of the game took place. Debug code was created at the
-base of each class at early stages to create an instance and simulate use.
-Extensive use of print statements was made to view method output and small debug
-functions were produced such as one created to view the board list’s contents
-(commit 17e7836).
+To test the application throughout it's development, regular full play sessions
+of the game took place. Debug code was created at the base of each class at
+early stages to create an instance and simulate use. Extensive use of print
+statements was made to view method output and small debug functions were
+produced, such as one created to view the board list’s contents (commit
+17e7836).
 
-Testing throughout the project through continued play and refinement, using the
-print statement to view method output and production of small debug functions
-such as one created to view the board list’s contents (commit 17e7836).
+Testing took place throughout the project through continued play and refinement.
+I used the print statement to view method output and production of small debug
+functions, such as one created to view the board list’s contents (commit
+17e7836).
 
 Once the computer player was automated I could test more easily by having 2
 computer players run through the game quickly from start to finish by commenting
-out any calls to the sleep method.
+out any calls to the `sleep` method of the built-in `time`.
 
 At the end of development the complete testing procedure followed the
-methodology detailed below:
+methodology listed below:
 
 - Each time a game is started the following items will be checked:
   1. Test input using uppercase and lowercase input.
@@ -422,12 +448,13 @@ methodology detailed below:
   1. Test using input outside the range requested and of opposite type (int <-->
     string, etc.).
   1. Place overlapping ships.
-  1. Place ship so that its length extends beyond the board size (out of bounds).
+  1. Place ship so that its length extends beyond the board size (out of
+    bounds).
   1. Fire on previous used coordinate
-  1. Check coordinates selected to fire upon are reported accurately on the guess
-    board.
-  1. Ensure the accuracy of the displayed fleet information, comparing it to what
-    is reported on the boards.
+  1. Check coordinates selected to fire upon are reported accurately on the
+    guess board.
+  1. Ensure the accuracy of the displayed fleet information, comparing it to
+    what is reported on the boards.
 
 #### Chrome Lighthouse
 
@@ -464,10 +491,10 @@ testing:
 
   In order to reference the correct position in the 2D list (when displayed as a
   board/grid) the x and y coordinates need to be swapped. This is due to the
-  first index position specified (`list[i]`) representing the y coordinate (or the
-  row) and the second index position (`list[i][j]`) representing the x coordinate
-  (or the column). This was missed in the initial testing but is corrected by
-  this commit.
+  first index position specified (`list[i]`) representing the y coordinate (or
+  the row) and the second index position (`list[i][j]`) representing the x
+  coordinate (or the column). This was missed in the initial testing but is
+  corrected by this commit.
 
 - Correct order of parameters passed to validate_position - [Link to
   Commit](https://github.com/ianmeigh/battleships/commit/17e78369de10351e3b74c2406b593f7568ab8d4b)
@@ -486,7 +513,8 @@ testing:
 - Input validation requires user input in lowercase - [Link to
   Commit](https://github.com/ianmeigh/battleships/commit/693cce0a63c252581150f62483f7881825e7dccc)
 
-  Input strings were not being converted to lowercase before being used in `if` statements.
+  Input strings were not being converted to lowercase before being used in `if`
+  statements.
   
 - Remove validation check in fire_missile function - [Link to
   Commit](https://github.com/ianmeigh/battleships/commit/f0cb88df8d33cfba9af2b35e2d4ba7a540bd7c8b)
@@ -494,14 +522,14 @@ testing:
   The fire_missile function contained an unnecessary call to the
   check_valid_position function leftover from earlier development.
 
-  When the code to add guesses to the opponents play board was introduced
+  When the code to add guesses to the opponent's play board was introduced
   ([commit
   009a4b8](https://github.com/ianmeigh/battleships/commit/009a4b82f7450d19578e89bcd0dabc0a2e0455a8)),
   this validation check produced errors as it did not contain logic to handle
   the new strings "Hit" and "Miss" added to the the play_board list, therefore
   the check returned False.
 
-  A string would then be checked to see if it was 'in' the returned value
+  A string would then be checked to see if it was `in` the returned value
   raising a TypeError as a bool is not iterable.
   
 - Update print statements to fit terminal width constraints - [Link to
@@ -514,13 +542,15 @@ testing:
   Commit](https://github.com/ianmeigh/battleships/commit/544d36d4fece2da66e87275af66d0339aed9e952)
 
   The coin toss function used to determine play order was made to accept upper
-  and lowercase input as suggested via CI Slack user feedback. This make it
+  and lowercase input as suggested via CI Slack user feedback. This made it
   consistent with other sections of the game.
 
 - Ensure player name cannot be empty - [Link to
   Commit](https://github.com/ianmeigh/battleships/commit/03eb88a2e3ed5438d6418960bb0c19a28fa7041f)
 
-  Updated the code to ensure that the player name could not be an empty string as detected during testing (see [Testing Methodology](#testing-methodology) section).
+  Updated the code to ensure that the player name could not be an empty string
+  as detected during testing (see [Testing Methodology](#testing-methodology)
+  section).
 
 - Update validation to detect empty input - [Link to
   Commit](https://github.com/ianmeigh/battleships/commit/f3afa63d44815e60959a93555b3cc1d99d928e8a)
@@ -582,27 +612,33 @@ the above process.
 
 The project was deployed to Heroku using the following steps...
 
-1. Log in to [Heroku](https://www.heroku.com/) and if not taken their automatically, navigate to your
-   personal app dashboard.
+1. Log in to [Heroku](https://www.heroku.com/) and if not taken there
+   automatically, navigate to your personal app dashboard.
 1. At the top of the page locate the 'New' drop down, click it and then select
    'Create new app'.
 1. Give your application a unique name, select a region appropriate to your
    location and click the 'Create app' button.
-1. Your app should now be created so from the menu towards the top of the page click 'Settings'
-1. Click 'Reveal Config Vars' in the Config vars section and enter the the key
-   as `PORT` and the value as `8000`. Click the Add button.
+1. Your app should now be created so from the menu towards the top of the page
+   click 'Settings'
+1. Click 'Reveal Config Vars' in the Config vars section and enter the key as
+   `PORT` and the value as `8000`. Click the Add button.
 1. Under the 'Buildpacks' section click 'Add buildpack'.
     1. Select 'Python' and then click the 'Save changes' button.
-    1. Click 'Add buildpack' again, select 'nodejs' and click the 'Save changes' button again.
+    1. Click 'Add buildpack' again, select 'nodejs' and click the 'Save changes'
+       button again.
     1. Ensure the build packs are ordered as below:
         1. `heroku/python`
         2. `heroku/nodejs`
 1. Navigate to the 'Deploy' page using the menu towards the top of the page.
-1. Select 'GitHub' from the 'Deployment method' section and you will be prompted to 'Connect to GitHub'.
-1. Once connected to your GitHub account you will be able to search for your repository with contains the battleships code.
+1. Select 'GitHub' from the 'Deployment method' section and you will be prompted
+   to 'Connect to GitHub'.
+1. Once connected to your GitHub account you will be able to search for your
+   repository which contains the battleships code.
 1. Once the repository is found click 'Connect'.
-1. At the bottom of the page find the section named 'Manual deploy', select the 'main' branch in the drop down and click the 'Deploy' button.
-1. Once deployment is complete, click the 'View' button load the URL of the deployed application.
+1. At the bottom of the page find the section named 'Manual deploy', select the
+   'main' branch in the drop down and click the 'Deploy' button.
+1. Once deployment is complete, click the 'View' button to load the URL of the
+   deployed application.
 
 ## Credits
 
@@ -610,16 +646,20 @@ The project was deployed to Heroku using the following steps...
 
 - [Code Institute Sample
   README](https://github.com/Code-Institute-Solutions/SampleREADME)
-  - Elements of the README were copied and adapted from the Code Institute sample readme.
+  - Elements of the README were copied and adapted from the Code Institute
+    sample readme.
 - [Pythondex](https://pythondex.com/python-battleship-game)
-  - Code to use chars the label y axis
+  - Code to use characters as the label of the y axis
 - [PyQuestions.com](https://pyquestions.com/clear-terminal-in-python)
   - Code to clear terminal
 
 ### Inspiration
 
-- I was inspired by David Bowers' (a fellow CI student) project where he uses boards per player (1 to hold ships and 1 to hold guesses) and displays them side by side during the game.
-  - Project URL - [https://github.com/dnlbowers/battleships](https://github.com/dnlbowers/battleships)
+- I was inspired by David Bowers' (a fellow CI student) project where he uses 2
+  boards per player (1 to hold ships and 1 to hold guesses) and displays them
+  side by side during the game.
+  - Project URL -
+    [https://github.com/dnlbowers/battleships](https://github.com/dnlbowers/battleships)
 
 ### Acknowledgements
 
