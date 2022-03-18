@@ -5,12 +5,12 @@ Classes:
 
     Game
 """
-from .player import Player, HumanPlayer, ComputerPlayer
-from .mixins import Mixins
-from itertools import cycle
 from time import sleep
 import random
+from itertools import cycle
 import pyfiglet
+from .player import Player, HumanPlayer, ComputerPlayer
+from .mixins import Mixins
 
 
 class Game:
@@ -108,18 +108,18 @@ class Game:
             "against a\n  friend locally.\n"
             "- Guess correctly in the Coin toss to take your turn first, "
             "then place your\n  ships and let battle commence!\n"
-            "- Guess a coordinate to fie at your opponent."
-            "- Information about your fleet (and you opponents) is shown "
+            "- Guess a coordinate to fire at your opponent.\n"
+            "- Information about your fleet (and your opponents) is shown "
             "during the\n  firing phase.\n"
-            "- Your 'play board' on the left (your ship positions and "
-            "opposition\n"
-            "  guesses), and your guess board is on the right (your previous "
-            "guesses.\n"
+            "- Your 'play board' is on the left displaying your ship "
+            "positions and opposition\n"
+            "  guesses, and your guess board is on the right (your previous "
+            "guesses).\n"
             "- The winner is the first to sink all their opponents ships, "
             "good luck!"
         )
 
-        input("\nPress enter to return to the main menu..")
+        input("\nPress Enter to return to the main menu..")
         self.new_game()
 
     def set_board_size(self):
@@ -237,7 +237,7 @@ class Game:
         Args:
             player_list (list): list of player objects
         """
-        for player in player_list:
+        for _ in player_list:
             current_player = next(self.player_turn_order)
             print(current_player.get_name())
             current_player.place_ships()
@@ -273,7 +273,7 @@ class Game:
             else:
                 print(f"{current_player.get_name()} is thinking..\n")
                 sleep(1)
-                print(f"Missile fired!..")
+                print("Missile fired!..")
                 sleep(1)
             current_player.fire_missile()
             Mixins.clear_terminal()

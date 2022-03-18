@@ -7,7 +7,7 @@ Classes:
     Small_Fleet,
     Large_Fleet
 """
-from .ships import *
+from .ships import AircraftCarrier, Battleship, Cruiser, Submarine, PatrolBoat
 
 
 class Fleet:
@@ -29,11 +29,7 @@ class Fleet:
         Returns the number of ship objects in fleet still afloat
     """
 
-    def __init__(self):
-        """
-        Constructs all the necessary attributes for a fleet
-        """
-        self.fleet = None
+    fleet = []
 
     def get_ships_in_fleet(self):
         """Gets all ship objects in fleet

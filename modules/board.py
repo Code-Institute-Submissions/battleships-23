@@ -5,11 +5,11 @@ Classes:
 
     Board
 """
+from time import sleep
+import random
 from .fleets import SmallFleet, LargeFleet
 from .ships import Ship
 from .mixins import Mixins
-from time import sleep
-import random
 
 
 class Board:
@@ -98,6 +98,7 @@ class Board:
             self.fleet = LargeFleet()
         self.board_is_automated = board_is_automated
 
+    @staticmethod
     def create_board(size):
         """
         Creates a 2D list to represent the board
@@ -131,7 +132,7 @@ class Board:
         # fmt: on
 
         print("")
-        for i in range(2):
+        for _ in range(2):
             print("    ", end="")
             for column_num in range(1, len(combined_boards) + 1):
                 print(f"{column_num} ", end="")
@@ -365,7 +366,7 @@ class Board:
                         "Please try again.."
                     )
                     break
-            except IndexError as e:
+            except IndexError:
                 # Out of range
                 valid_placement = (
                     "The selected position would put the ship out of bounds. "
